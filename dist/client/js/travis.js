@@ -42,6 +42,18 @@ artyom.addCommands([
         }
     },
     {
+        indexes: ["Enter debug"],
+        action: function (i) {
+            artyom.setDebug(true);
+        }
+    },
+    {
+        indexes: ["Leave debug"],
+        action: function (i) {
+            artyom.setDebug(false);
+        }
+    },
+    {
         indexes: ["What is the definition for *", "What does * mean"],
         smart: true,
         action: function (i, wildcard) {

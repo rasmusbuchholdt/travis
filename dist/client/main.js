@@ -13,7 +13,7 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ['Repeat after me *'],
+        indexes: ["Repeat after me *"],
         smart: true,
         action: function (i, wildcard) {
             artyom.say("You've said : " + wildcard);
@@ -22,10 +22,11 @@ artyom.addCommands([
 ]);
 artyom.redirectRecognizedTextOutput(function (recognized, isFinal) {
     if (isFinal) {
-        console.log("Final recognized text: " + recognized);
+        $("#speech").html(recognized);
     }
     else {
         console.log(recognized);
+        $("#speech").html(recognized);
     }
 });
 artyom.initialize({
@@ -41,21 +42,25 @@ artyom.initialize({
 }).catch(function (error) {
     console.error("Artyom couldn't be initialized: " + error);
 });
+function handleResponse(response) {
+    artyom.say(response);
+    $("#response").html(response);
+}
 function getDay() {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var date = new Date();
-    artyom.say("" + days[date.getDay()]);
+    handleResponse("" + days[date.getDay()]);
 }
 function getMonth() {
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var date = new Date();
-    artyom.say("" + months[date.getMonth()]);
+    handleResponse("" + months[date.getMonth()]);
 }
 function apiTest() {
     $.ajax({
         url: "/api/",
         success: function (result) {
-            artyom.say("API test " + result);
+            handleResponse("API test " + result);
         }
     });
 }

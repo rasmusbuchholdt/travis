@@ -27,6 +27,10 @@ app.get("/main.js", (req: any, resp: any) => {
     resp.sendFile(path.join(__dirname + "/client/main.js"));
 });
 
+app.get("/artyom.window.js", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
+});
+
 app.get("/main.css", (req: any, resp: any) => {
     resp.sendFile(path.join(__dirname + "/client/main.css"));
 });

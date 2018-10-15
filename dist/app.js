@@ -20,6 +20,9 @@ app.get("/", function (req, resp) {
 app.get("/main.js", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/client/main.js"));
 });
+app.get("/artyom.window.js", function (req, resp) {
+    resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
+});
 app.get("/main.css", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/client/main.css"));
 });

@@ -9,7 +9,6 @@ let app = express();
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
-app.use(express.static(__dirname + '/client'));
 
 app.use((req: any, resp: any, next: any) => {
     resp.header("Access-Control-Allow-Origin", "*");
@@ -20,8 +19,32 @@ app.use((req: any, resp: any, next: any) => {
 
 app.set("port", (process.env.PORT || config.port));
 
+app.get("/", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + "/client/index.html"));
+});
+
+app.get("/js/travis.js", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + "/client/js/travis.js"));
+});
+
+app.get("/js/main.js", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + "/client/js/main.js"));
+});
+
 app.get("/js/artyom.window.js", (req: any, resp: any) => {
     resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
+});
+
+app.get("/css/style.css", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + "/client/css/style.css"));
+});
+
+app.get("/css/main.css", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + "/client/css/main.css"));
+});
+
+app.get("/images/background.png", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + `/client/images/background.png`));
 });
 
 app.put("/api/urban-dictionary", (req: any, resp: any) => {

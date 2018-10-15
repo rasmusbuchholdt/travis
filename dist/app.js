@@ -29,6 +29,9 @@ app.get("/js/artyom.window.js", function (req, resp) {
 app.get("/css/style.css", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/client/css/style.css"));
 });
+app.get("/images/background.png", function (req, resp) {
+    resp.sendFile(path.join(__dirname + "/client/images/background.png"));
+});
 app.put("/api/urban-dictionary", function (req, resp) {
     var term = req.body.term;
     ud.term(term).then(function (result) {

@@ -39,6 +39,10 @@ app.get("/css/style.css", (req: any, resp: any) => {
     resp.sendFile(path.join(__dirname + "/client/css/style.css"));
 });
 
+app.get("/images/background.png", (req: any, resp: any) => {
+    resp.sendFile(path.join(__dirname + `/client/images/background.png`));
+});
+
 app.put("/api/urban-dictionary", (req: any, resp: any) => {
     let term: string = req.body.term;
     ud.term(term).then((result) => {

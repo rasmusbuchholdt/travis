@@ -10,21 +10,23 @@ app.use(function (req, resp, next) {
     resp.header("Access-Control-Allow-Origin", "*");
     resp.header("Access-Control-Allow-Headers", "X-Requested-With");
     resp.header("Access-Control-Allow-Methods", "GET, PUT");
-    //resp.header("Content-Type", "application/json");
     next();
 });
 app.set("port", (process.env.PORT || config.port));
 app.get("/", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/client/index.html"));
 });
-app.get("/main.js", function (req, resp) {
-    resp.sendFile(path.join(__dirname + "/client/main.js"));
+app.get("/js/main.js", function (req, resp) {
+    resp.sendFile(path.join(__dirname + "/client/js/main.js"));
 });
-app.get("/artyom.window.js", function (req, resp) {
+app.get("/js/travis.js", function (req, resp) {
+    resp.sendFile(path.join(__dirname + "/client/js/travis.js"));
+});
+app.get("/js/artyom.window.js", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
 });
-app.get("/main.css", function (req, resp) {
-    resp.sendFile(path.join(__dirname + "/client/main.css"));
+app.get("/css/style.css", function (req, resp) {
+    resp.sendFile(path.join(__dirname + "/client/css/style.css"));
 });
 app.get("/api/", function (req, resp) {
     return resp.status(HTTP.OK).json("It works!");

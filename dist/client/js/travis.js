@@ -33,7 +33,7 @@ artyom.initialize({
     lang: "en-GB",
     continuous: true,
     soundex: true,
-    debug: true,
+    debug: false,
     executionKeyword: "and do it now",
     listen: true,
     name: "Jarvis"

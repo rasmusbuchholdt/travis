@@ -9,6 +9,14 @@ artyom.addCommands([
         }
     },
     {
+        indexes: ["Shut up", "Be quiet"],
+        action: function (i) {
+            artyom.restart().then(function () {
+                artyom.shutUp();
+            });
+        }
+    },
+    {
         indexes: ["Stop listening"],
         action: function (i) {
             artyom.dontObey();
@@ -28,9 +36,22 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["Tell me a joke"],
+        indexes: ["Where am I"],
+        action: function (i) {
+            getLocation();
+        }
+    },
+    {
+        indexes: ["Tell me a joke", "Entertain me"],
         action: function (i) {
             getJoke();
+        }
+    },
+    {
+        indexes: ["What is the definition for *", "What does * mean"],
+        smart: true,
+        action: function (i, wildcard) {
+            getDefinition(wildcard);
         }
     },
     {
@@ -82,6 +103,29 @@ function apiTest() {
         url: "/api/",
         success: function (result) {
             handleResponse("API test " + result);
+        }
+    });
+}
+function getDefinition(term) {
+    $.ajax({
+        type: "PUT",
+        url: "/api/urban-dictionary",
+        data: {
+            term: term
+        },
+        headers: {
+            Accept: "application/json"
+        },
+        success: function (result) {
+            handleResponse(result);
+        }
+    });
+}
+function getLocation() {
+    $.ajax({
+        url: "http://ip-api.com/json",
+        success: function (result) {
+            handleResponse("You are currenlty in " + result.city + " in " + result.country);
         }
     });
 }

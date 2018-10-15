@@ -1,5 +1,6 @@
 var express = require("express");
 var path = require("path");
+var ud = require("urban-dictionary");
 var bodyparser = require("body-parser");
 var HTTP = require("http-status-codes");
 var config = require("../config/app.json");
@@ -28,8 +29,17 @@ app.get("/js/artyom.window.js", function (req, resp) {
 app.get("/css/style.css", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/client/css/style.css"));
 });
-app.get("/api/", function (req, resp) {
-    return resp.status(HTTP.OK).json("It works!");
+app.put("/api/urban-dictionary", function (req, resp) {
+    var term = req.body.term;
+    ud.term(term).then(function (result) {
+        var entries = result.entries;
+        // console.log(entries[0].word)
+        // console.log(entries[0].definition)
+        // console.log(entries[0].example)
+        return resp.status(HTTP.OK).json(entries[0].definition);
+    }).catch(function (error) {
+        console.error(error.message);
+    });
 });
 app.listen(app.get("port"), function () {
     console.log("Listening on port " + app.get("port"));

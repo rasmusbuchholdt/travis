@@ -1,5 +1,6 @@
 let express = require("express");
 let path = require("path");
+let ud = require("urban-dictionary");
 let bodyparser = require("body-parser");
 let HTTP = require("http-status-codes");
 let config = require("../config/app.json");
@@ -38,8 +39,17 @@ app.get("/css/style.css", (req: any, resp: any) => {
     resp.sendFile(path.join(__dirname + "/client/css/style.css"));
 });
 
-app.get("/api/", (req: any, resp: any) => {
-    return resp.status(HTTP.OK).json(`It works!`);
+app.put("/api/urban-dictionary", (req: any, resp: any) => {
+    let term: string = req.body.term;
+    ud.term(term).then((result) => {
+        const entries = result.entries
+        // console.log(entries[0].word)
+        // console.log(entries[0].definition)
+        // console.log(entries[0].example)
+        return resp.status(HTTP.OK).json(entries[0].definition);
+    }).catch((error) => {
+        console.error(error.message)
+    });
 });
 
 app.listen(app.get("port"), () => {

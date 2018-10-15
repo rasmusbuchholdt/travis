@@ -36,6 +36,12 @@ artyom.addCommands([
         }
     },
     {
+        indexes: ["What month is it"],
+        action: function (i) {
+            getMonth();
+        }
+    },
+    {
         indexes: ["Tell me a joke", "Entertain me"],
         action: function (i) {
             getJoke();

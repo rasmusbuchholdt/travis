@@ -39,6 +39,12 @@ artyom.addCommands([
         }
     },
     {
+        indexes: ["What month is it"],
+        action: (i: any) => {
+            getMonth();
+        }
+    },
+    {
         indexes: ["Tell me a joke", "Entertain me"],
         action: (i: any) => {
             getJoke();

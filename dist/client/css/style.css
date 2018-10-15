@@ -6,6 +6,26 @@ html {
     background-size: cover;
 }
 
+body {
+    font-family: "Impact";
+}
+
+h1 {
+    color: black;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    font-size: 60px;
+}
+
+p {
+    color: black;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    font-size: 30px;
+}
+
 .container {
     text-align: center;
 }

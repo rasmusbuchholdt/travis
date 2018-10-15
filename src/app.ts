@@ -2,11 +2,13 @@ let express = require("express");
 let path = require("path");
 let ud = require("urban-dictionary");
 let bodyparser = require("body-parser");
+var compression = require("compression")
 let HTTP = require("http-status-codes");
 let config = require("../config/app.json");
 
 let app = express();
 
+app.use(compression());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/client'));

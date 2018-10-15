@@ -37,10 +37,10 @@ artyom.initialize({
     lang: "en-GB",
     continuous: true,
     soundex: true,
-    debug: false,
+    debug: true,
     executionKeyword: "and do it now",
     listen: true,
-    name: "Jarvis" 
+    name: "Travis" 
 }).then(() => {
     console.log("Artyom has been succesfully initialized");
 }).catch((error) => {

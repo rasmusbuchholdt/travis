@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var config = require("../config/web-app.json");
+var config = require("../config/web.json");
 var path = require("path");
 var app = express();
 app.set("port", (process.env.PORT || config.port));

@@ -1,2 +1,2 @@
-web: node dist/web-app.js
-web: node dist/service-app.js
+web: node dist/web.js
+api: node dist/api.js

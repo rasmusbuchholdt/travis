@@ -1,7 +1,7 @@
 export{};
 
 let express = require("express");
-let config = require("../config/web-app.json");
+let config = require("../config/web.json");
 let path = require("path");
 
 let app = express();

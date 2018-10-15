@@ -3,7 +3,7 @@ export{};
 let express = require("express");
 let bodyparser = require("body-parser");
 let HTTP = require("http-status-codes");
-let config = require("../config/service-app.json");
+let config = require("../config/api.json");
 
 let app = express();
 

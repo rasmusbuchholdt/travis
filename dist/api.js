@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var bodyparser = require("body-parser");
 var HTTP = require("http-status-codes");
-var config = require("../config/service-app.json");
+var config = require("../config/api.json");
 var app = express();
 app.set("port", (process.env.PORT || config.port));
 app.use(bodyparser.json());

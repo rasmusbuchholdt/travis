@@ -57,6 +57,8 @@ artyom.addCommands([
     }
 ]);
 artyom.redirectRecognizedTextOutput(function (recognized, isFinal) {
+    if (artyom.isSpeaking())
+        return;
     if (isFinal) {
         $("#search").val(recognized);
     }

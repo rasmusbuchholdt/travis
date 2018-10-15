@@ -61,6 +61,7 @@ artyom.addCommands([
 ]);
 
 artyom.redirectRecognizedTextOutput(function(recognized: string, isFinal: boolean){
+    if (artyom.isSpeaking()) return;
     if(isFinal) {
         $("#search").val(recognized);
     } else {

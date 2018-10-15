@@ -7,7 +7,7 @@ artyom.addCommands([
         indexes:["Restart"],
         action: (i: any) => {
             artyom.restart().then(() => {
-                handleResponse("I'm back!");
+                artyom.say("I'm back!");
             });
         }
     },
@@ -23,7 +23,7 @@ artyom.addCommands([
         indexes:["Stop listening"],
         action: (i: any) => {
             artyom.dontObey();
-            handleResponse("I'm not listening anymore.");
+            artyom.say("I'm not listening anymore.");
         }
     },
     {
@@ -62,9 +62,9 @@ artyom.addCommands([
 
 artyom.redirectRecognizedTextOutput(function(recognized: string, isFinal: boolean){
     if(isFinal) {
-        $("#speech").html(recognized);
+        $("#search").val(recognized);
     } else {
-        $("#speech").html(recognized);
+        $("#search").attr("placeholder", recognized).val("").focus().blur();
     }
 });
 
@@ -83,21 +83,16 @@ artyom.initialize({
     console.error(`Artyom couldn't be initialized: ${error}`);
 });
 
-function handleResponse(response: string) {
-    artyom.say(response);
-    $("#response").html(response);
-}
-
 function getDay() {
     let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     let date = new Date();
-    handleResponse(`${days[date.getDay()]}`);
+    artyom.say(`${days[date.getDay()]}`);
 }
 
 function getMonth() {
     let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     let date = new Date();
-    handleResponse(`${months[date.getMonth()]}`);
+    artyom.say(`${months[date.getMonth()]}`);
 }
 
 function getDefinition(term: string) {
@@ -111,7 +106,7 @@ function getDefinition(term: string) {
             Accept: "application/json"
         }, 
         success: function(result: any) {
-            handleResponse(result);
+            artyom.say(result);
         }
     }); 
 }
@@ -123,7 +118,7 @@ function getJoke() {
             Accept: "application/json"
         }, 
         success: function(result: any) {
-            handleResponse(result.joke);
+            artyom.say(result.joke);
         }
     }); 
 }

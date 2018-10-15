@@ -4,7 +4,7 @@ artyom.addCommands([
         indexes: ["Restart"],
         action: function (i) {
             artyom.restart().then(function () {
-                handleResponse("I'm back!");
+                artyom.say("I'm back!");
             });
         }
     },
@@ -20,7 +20,7 @@ artyom.addCommands([
         indexes: ["Stop listening"],
         action: function (i) {
             artyom.dontObey();
-            handleResponse("I'm not listening anymore.");
+            artyom.say("I'm not listening anymore.");
         }
     },
     {
@@ -58,10 +58,10 @@ artyom.addCommands([
 ]);
 artyom.redirectRecognizedTextOutput(function (recognized, isFinal) {
     if (isFinal) {
-        $("#speech").html(recognized);
+        $("#search").val(recognized);
     }
     else {
-        $("#speech").html(recognized);
+        $("#search").attr("placeholder", recognized).val("").focus().blur();
     }
 });
 artyom.initialize({
@@ -78,19 +78,15 @@ artyom.initialize({
 }).catch(function (error) {
     console.error("Artyom couldn't be initialized: " + error);
 });
-function handleResponse(response) {
-    artyom.say(response);
-    $("#response").html(response);
-}
 function getDay() {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var date = new Date();
-    handleResponse("" + days[date.getDay()]);
+    artyom.say("" + days[date.getDay()]);
 }
 function getMonth() {
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var date = new Date();
-    handleResponse("" + months[date.getMonth()]);
+    artyom.say("" + months[date.getMonth()]);
 }
 function getDefinition(term) {
     $.ajax({
@@ -103,7 +99,7 @@ function getDefinition(term) {
             Accept: "application/json"
         },
         success: function (result) {
-            handleResponse(result);
+            artyom.say(result);
         }
     });
 }
@@ -114,7 +110,7 @@ function getJoke() {
             Accept: "application/json"
         },
         success: function (result) {
-            handleResponse(result.joke);
+            artyom.say(result.joke);
         }
     });
 }

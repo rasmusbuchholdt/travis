@@ -36,12 +36,6 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["Where am I"],
-        action: function (i) {
-            getLocation();
-        }
-    },
-    {
         indexes: ["Tell me a joke", "Entertain me"],
         action: function (i) {
             getJoke();
@@ -118,14 +112,6 @@ function getDefinition(term) {
         },
         success: function (result) {
             handleResponse(result);
-        }
-    });
-}
-function getLocation() {
-    $.ajax({
-        url: "http://ip-api.com/json",
-        success: function (result) {
-            handleResponse("You are currenlty in " + result.city + " in " + result.country);
         }
     });
 }

@@ -1,9 +1,15 @@
 var artyom = new Artyom();
 artyom.addCommands([
     {
-        indexes: ['Hello', 'Hi', 'is someone there'],
+        indexes: ["What day is it"],
         action: function (i) {
-            artyom.say("Hello, it's me");
+            getDay();
+        }
+    },
+    {
+        indexes: ["Test"],
+        action: function (i) {
+            apiTest();
         }
     },
     {
@@ -12,24 +18,16 @@ artyom.addCommands([
         action: function (i, wildcard) {
             artyom.say("You've said : " + wildcard);
         }
-    },
-    // The smart commands support regular expressions
-    {
-        indexes: [/Good Morning/i],
-        smart: true,
-        action: function (i, wildcard) {
-            artyom.say("You've said : " + wildcard);
-        }
-    },
-    {
-        indexes: ['shut down yourself'],
-        action: function (i, wildcard) {
-            artyom.fatality().then(function () {
-                console.log("Artyom succesfully stopped");
-            });
-        }
-    },
+    }
 ]);
+artyom.redirectRecognizedTextOutput(function (recognized, isFinal) {
+    if (isFinal) {
+        console.log("Final recognized text: " + recognized);
+    }
+    else {
+        console.log(recognized);
+    }
+});
 artyom.initialize({
     lang: "en-GB",
     continuous: true,
@@ -43,3 +41,21 @@ artyom.initialize({
 }).catch(function (error) {
     console.error("Artyom couldn't be initialized: " + error);
 });
+function getDay() {
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var date = new Date();
+    artyom.say("" + days[date.getDay()]);
+}
+function getMonth() {
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var date = new Date();
+    artyom.say("" + months[date.getMonth()]);
+}
+function apiTest() {
+    $.ajax({
+        url: "/api/",
+        success: function (result) {
+            artyom.say("API test " + result);
+        }
+    });
+}

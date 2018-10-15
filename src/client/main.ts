@@ -1,11 +1,18 @@
+declare let $: any;
 declare let Artyom: any;
 let artyom = new Artyom();
 
 artyom.addCommands([
     {
-        indexes: ['Hello','Hi','is someone there'],
+        indexes: ["What day is it"],
         action: (i) => {
-            artyom.say("Hello, it's me");
+            getDay();
+        }
+    },
+    {
+        indexes: ["Test"],
+        action: (i) => {
+            apiTest();
         }
     },
     {
@@ -14,24 +21,16 @@ artyom.addCommands([
         action: (i,wildcard) => {
             artyom.say("You've said : "+ wildcard);
         }
-    },
-    // The smart commands support regular expressions
-    {
-        indexes: [/Good Morning/i],
-        smart:true,
-        action: (i,wildcard) => {
-            artyom.say("You've said : "+ wildcard);
-        }
-    },
-    {
-        indexes: ['shut down yourself'],
-        action: (i,wildcard) => {
-            artyom.fatality().then(() => {
-                console.log("Artyom succesfully stopped");
-            });
-        }
-    },
+    }
 ]);
+
+artyom.redirectRecognizedTextOutput(function(recognized,isFinal){
+    if(isFinal) {
+        console.log("Final recognized text: " + recognized);
+    } else {
+        console.log(recognized);
+    }
+});
 
 artyom.initialize({
     lang: "en-GB",
@@ -46,3 +45,24 @@ artyom.initialize({
 }).catch((error) => {
     console.error(`Artyom couldn't be initialized: ${error}`);
 });
+
+function getDay() {
+    let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    let date = new Date();
+    artyom.say(`${days[date.getDay()]}`);
+}
+
+function getMonth() {
+    let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    let date = new Date();
+    artyom.say(`${months[date.getMonth()]}`);
+}
+
+function apiTest() {
+    $.ajax({
+        url: "/api/", 
+        success: function(result : any){
+            artyom.say(`API test ${result}`);
+        }
+    });
+}

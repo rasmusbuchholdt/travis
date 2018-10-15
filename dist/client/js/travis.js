@@ -28,9 +28,9 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["Test"],
+        indexes: ["Tell me a joke"],
         action: function (i) {
-            apiTest();
+            getJoke();
         }
     },
     {
@@ -82,6 +82,17 @@ function apiTest() {
         url: "/api/",
         success: function (result) {
             handleResponse("API test " + result);
+        }
+    });
+}
+function getJoke() {
+    $.ajax({
+        url: "https://icanhazdadjoke.com/",
+        headers: {
+            Accept: "application/json"
+        },
+        success: function (result) {
+            handleResponse(result.joke);
         }
     });
 }

@@ -31,9 +31,9 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["Test"],
+        indexes: ["Tell me a joke"],
         action: (i) => {
-            apiTest();
+            getJoke();
         }
     },
     {
@@ -88,8 +88,20 @@ function getMonth() {
 function apiTest() {
     $.ajax({
         url: "/api/", 
-        success: function(result : any){
+        success: function(result: any) {
             handleResponse(`API test ${result}`);
         }
     });
+}
+
+function getJoke() {
+    $.ajax({
+        url: "https://icanhazdadjoke.com/",
+        headers: {          
+            Accept: "application/json"
+        }, 
+        success: function(result: any) {
+            handleResponse(result.joke);
+        }
+    }); 
 }

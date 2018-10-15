@@ -4,6 +4,27 @@ let artyom = new Artyom();
 
 artyom.addCommands([
     {
+        indexes:["Restart"],
+        action: (i) => {
+            artyom.restart().then(() => {
+                handleResponse("I'm back!");
+            });
+        }
+    },
+    {
+        indexes:["Stop listening"],
+        action: (i) => {
+            artyom.dontObey();
+            handleResponse("I'm not listening anymore.");
+        }
+    },
+    {
+        indexes:["Repeat that", "Say again"],
+        action: (i) => {
+            artyom.repeatLastSay();
+        }
+    },
+    {
         indexes: ["What day is it"],
         action: (i) => {
             getDay();
@@ -21,14 +42,13 @@ artyom.addCommands([
         action: (i,wildcard) => {
             artyom.say(`You've said : ${wildcard}`);
         }
-    }
+    } 
 ]);
 
-artyom.redirectRecognizedTextOutput(function(recognized,isFinal){
+artyom.redirectRecognizedTextOutput(function(recognized: string, isFinal: boolean){
     if(isFinal) {
         $("#speech").html(recognized);
     } else {
-        console.log(recognized);
         $("#speech").html(recognized);
     }
 });
@@ -38,6 +58,7 @@ artyom.initialize({
     continuous: true,
     soundex: true,
     debug: true,
+    obeyKeyword: "start listening",
     executionKeyword: "and do it now",
     listen: true,
     name: "Travis" 

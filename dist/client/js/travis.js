@@ -1,6 +1,27 @@
 var artyom = new Artyom();
 artyom.addCommands([
     {
+        indexes: ["Restart"],
+        action: function (i) {
+            artyom.restart().then(function () {
+                handleResponse("I'm back!");
+            });
+        }
+    },
+    {
+        indexes: ["Stop listening"],
+        action: function (i) {
+            artyom.dontObey();
+            handleResponse("I'm not listening anymore.");
+        }
+    },
+    {
+        indexes: ["Repeat that", "Say again"],
+        action: function (i) {
+            artyom.repeatLastSay();
+        }
+    },
+    {
         indexes: ["What day is it"],
         action: function (i) {
             getDay();
@@ -25,7 +46,6 @@ artyom.redirectRecognizedTextOutput(function (recognized, isFinal) {
         $("#speech").html(recognized);
     }
     else {
-        console.log(recognized);
         $("#speech").html(recognized);
     }
 });
@@ -34,6 +54,7 @@ artyom.initialize({
     continuous: true,
     soundex: true,
     debug: true,
+    obeyKeyword: "start listening",
     executionKeyword: "and do it now",
     listen: true,
     name: "Travis"

@@ -92,14 +92,6 @@ function getMonth() {
     var date = new Date();
     handleResponse("" + months[date.getMonth()]);
 }
-function apiTest() {
-    $.ajax({
-        url: "/api/",
-        success: function (result) {
-            handleResponse("API test " + result);
-        }
-    });
-}
 function getDefinition(term) {
     $.ajax({
         type: "PUT",

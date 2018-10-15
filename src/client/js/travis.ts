@@ -100,15 +100,6 @@ function getMonth() {
     handleResponse(`${months[date.getMonth()]}`);
 }
 
-function apiTest() {
-    $.ajax({
-        url: "/api/", 
-        success: function(result: any) {
-            handleResponse(`API test ${result}`);
-        }
-    });
-}
-
 function getDefinition(term: string) {
     $.ajax({
         type: "PUT",

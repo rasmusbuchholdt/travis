@@ -1,5 +1,6 @@
+export{};
+
 let express = require("express");
-let bodyparser = require("body-parser");
 let config = require("../config/web-app.json");
 let path = require("path");
 

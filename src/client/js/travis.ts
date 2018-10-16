@@ -70,6 +70,13 @@ artyom.addCommands([
         }
     },
     {
+        indexes: ["* spotify", "* song", "* music"],
+        smart:true,
+        action: (i: any, wildcard: string) => {
+            controlSpotify(wildcard);
+        }
+    },
+    {
         indexes: ["Repeat after me *"],
         smart:true,
         action: (i: any, wildcard: string) => {
@@ -126,6 +133,17 @@ function getDefinition(term: string) {
         }, 
         success: function(result: any) {
             artyom.say(result);
+        }
+    }); 
+}
+
+function controlSpotify(action: string) {
+    $.ajax({
+        type: "PUT",
+        url: "/api/spotify/control",
+        data: {
+            accessToken: $.cookie("accessToken"),
+            action
         }
     }); 
 }

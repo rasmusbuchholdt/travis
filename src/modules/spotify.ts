@@ -13,8 +13,8 @@ export class Spotify {
     static authStrategy() {
         return new spotifyStrategy(
             {
-            clientID: config.spotityClientID,
-            clientSecret: config.spotifyClientSecret,
+            clientID: process.env.spotityClientID ||config.spotityClientID,
+            clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
             callbackURL: "/auth/spotify/callback"
             },
             (accessToken, refreshToken, expires_in, profile, done) => {

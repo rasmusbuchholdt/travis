@@ -9,7 +9,7 @@ var Spotify = /** @class */ (function () {
     Spotify.authStrategy = function () {
         return new spotifyStrategy({
             clientID: process.env.spotityClientID || config.spotityClientID,
-            clientSecret: process.env.spotifyClientSecret ||config.spotifyClientSecret,
+            clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
             callbackURL: "/auth/spotify/callback"
         }, function (accessToken, refreshToken, expires_in, profile, done) {
             process.nextTick(function () {

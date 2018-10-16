@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var passport_1 = require("./modules/passport");
+var spotify_1 = require("./modules/spotify");
 var express = require("express");
 var path = require("path");
 var ud = require("urban-dictionary");
@@ -30,6 +31,13 @@ app.put("/api/urban-dictionary", function (req, resp) {
     ud.term(term).then(function (result) {
         return resp.status(HTTP.OK).json(result.entries[0].definition);
     });
+});
+app.put("/api/spotify/control", function (req, resp) {
+    var accessToken = req.body.accessToken;
+    var action = req.body.action;
+    var spotify = new spotify_1.Spotify(accessToken);
+    spotify.controlPlayback(action);
+    return resp.status(HTTP.OK).send();
 });
 app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state"] }), function (req, resp) { });
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), function (req, resp) {

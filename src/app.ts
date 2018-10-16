@@ -1,4 +1,5 @@
 import { Passport } from "./modules/passport";
+import { Spotify } from "./modules/spotify";
 
 let express = require("express");
 let path = require("path");
@@ -35,6 +36,14 @@ app.put("/api/urban-dictionary", (req: any, resp: any) => {
     ud.term(term).then((result) => {
         return resp.status(HTTP.OK).json(result.entries[0].definition);
     });
+});
+
+app.put("/api/spotify/control", (req: any, resp: any) => {
+    let accessToken: string = req.body.accessToken;
+    let action: string = req.body.action;
+    let spotify: Spotify = new Spotify(accessToken);
+    spotify.controlPlayback(action);
+    return resp.status(HTTP.OK).send();
 });
 
 app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state"] }), (req: any, resp: any) => {});

@@ -37,7 +37,7 @@ app.put("/api/urban-dictionary", (req: any, resp: any) => {
     });
 });
 
-app.get("/auth/spotify", passport.authenticate("spotify"), (req: any, resp: any) => {});
+app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state"] }), (req: any, resp: any) => {});
 
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), (req: any, resp: any) => {
     resp.cookie("accessToken", req.user.accessToken);

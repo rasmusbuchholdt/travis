@@ -24,7 +24,9 @@ var Spotify = /** @class */ (function () {
         else if (["shuffle", "random"].indexOf(action) > -1) {
             this.shuffle();
         }
-        ;
+        else if (["restart", "replay", "repeat"].indexOf(action) > -1) {
+            this.restart();
+        }
     };
     Spotify.prototype.previous = function () {
         var options = {
@@ -82,6 +84,19 @@ var Spotify = /** @class */ (function () {
         var options = {
             method: "PUT",
             uri: "https://api.spotify.com/v1/me/player/shuffle?state=true",
+            headers: {
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        request(options)
+            .catch(function (error) {
+            console.error(error);
+        });
+    };
+    Spotify.prototype.restart = function () {
+        var options = {
+            method: "PUT",
+            uri: "https://api.spotify.com/v1/me/player/seek?position_ms=0",
             headers: {
                 Authorization: " Bearer " + this.accessToken
             }

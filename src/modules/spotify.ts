@@ -22,7 +22,9 @@ export class Spotify {
             this.previous();
         } else if (["shuffle", "random"].indexOf(action) > -1) {
             this.shuffle();
-        };
+        } else if (["restart", "replay", "repeat"].indexOf(action) > -1) {
+            this.restart();
+        }
     }
 
     private previous() {
@@ -95,6 +97,20 @@ export class Spotify {
         });
     }
 
+    private restart() {
+        let options: {} = {
+            method: "PUT",
+            uri: "https://api.spotify.com/v1/me/player/seek?position_ms=0",
+            headers: {
+                Authorization: ` Bearer ${this.accessToken}`
+            }
+        };
+        request(options)
+        .catch(error => {
+            console.error(error);
+        });
+    }
+W
     static authStrategy() {
         return new spotifyStrategy(
             {

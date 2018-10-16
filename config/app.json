@@ -1,5 +1,6 @@
 {
     "port": 2000,
     "spotityClientID": "",
-    "spotifyClientSecret": ""
+    "spotifyClientSecret": "",
+    "callbackURL": ""
 }

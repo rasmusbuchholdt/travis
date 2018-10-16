@@ -98,6 +98,17 @@ legend {
   box-sizing: border-box;
 }
 
+.auth-icon {
+  height: 40px;
+  display: inline-block;
+}
+
+.auths {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
 .s006 {
   min-height: 100vh;
   display: -ms-flexbox;

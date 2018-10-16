@@ -1,5 +1,6 @@
 import { Passport } from "./modules/passport";
 import { Spotify } from "./modules/spotify";
+import { Plex } from "./modules/plex";
 
 let express = require("express");
 let path = require("path");
@@ -47,8 +48,13 @@ app.put("/api/spotify/control", (req: any, resp: any) => {
 });
 
 app.put("/api/spotify/validate", (req: any, resp: any) => {
-    new Spotify(req.body.accessToken).validateToken().then(result => {
-        console.log("validation result" + result);   
+    new Spotify(req.body.accessToken).validateToken().then(result => { 
+        return resp.status(HTTP.OK).json(result);
+    })
+});
+
+app.put("/api/plex/validate", (req: any, resp: any) => {
+    new Plex(req.body.ip, req.body.port, req.body.accessToken).validateToken().then(result => {
         return resp.status(HTTP.OK).json(result);
     })
 });

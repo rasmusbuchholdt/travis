@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var passport_1 = require("./modules/passport");
 var spotify_1 = require("./modules/spotify");
+var plex_1 = require("./modules/plex");
 var express = require("express");
 var path = require("path");
 var ud = require("urban-dictionary");
@@ -41,7 +42,11 @@ app.put("/api/spotify/control", function (req, resp) {
 });
 app.put("/api/spotify/validate", function (req, resp) {
     new spotify_1.Spotify(req.body.accessToken).validateToken().then(function (result) {
-        console.log("validation result" + result);
+        return resp.status(HTTP.OK).json(result);
+    });
+});
+app.put("/api/plex/validate", function (req, resp) {
+    new plex_1.Plex(req.body.ip, req.body.port, req.body.accessToken).validateToken().then(function (result) {
         return resp.status(HTTP.OK).json(result);
     });
 });

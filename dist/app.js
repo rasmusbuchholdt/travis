@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var passport_1 = require("./modules/passport");
 var express = require("express");
 var path = require("path");
 var ud = require("urban-dictionary");
@@ -5,11 +8,13 @@ var bodyparser = require("body-parser");
 var compression = require("compression");
 var HTTP = require("http-status-codes");
 var config = require("../config/app.json");
+var passport = new passport_1.Passport().getPassport();
 var app = express();
 app.use(compression());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/client'));
+app.use(express.static(__dirname + "/client"));
+app.use(passport.initialize());
 app.use(function (req, resp, next) {
     resp.header("Access-Control-Allow-Origin", "*");
     resp.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -23,14 +28,20 @@ app.get("/js/artyom.window.js", function (req, resp) {
 app.put("/api/urban-dictionary", function (req, resp) {
     var term = req.body.term;
     ud.term(term).then(function (result) {
-        var entries = result.entries;
-        // console.log(entries[0].word)
-        // console.log(entries[0].definition)
-        // console.log(entries[0].example)
-        return resp.status(HTTP.OK).json(entries[0].definition);
-    }).catch(function (error) {
-        console.error(error.message);
+        return resp.status(HTTP.OK).json(result.entries[0].definition);
     });
+});
+app.get("/auth/spotify", passport.authenticate("spotify"), function (req, resp) { });
+app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), function (req, resp) {
+    resp.cookie("accessToken", req.user.accessToken);
+    resp.cookie("refreshToken", req.user.refreshToken);
+    resp.redirect("/");
+});
+app.get("/logout", function (req, resp) {
+    req.logout();
+    resp.clearCookie("accessToken");
+    resp.clearCookie("refreshToken");
+    resp.redirect("/");
 });
 app.listen(app.get("port"), function () {
     console.log("Listening on port " + app.get("port"));

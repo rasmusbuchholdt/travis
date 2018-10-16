@@ -131,7 +131,6 @@ function getDefinition(term) {
     });
 }
 function controlSpotify(action) {
-    console.log("wildcard" + action);
     $.ajax({
         type: "PUT",
         url: "/api/spotify/control",

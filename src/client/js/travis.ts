@@ -138,7 +138,6 @@ function getDefinition(term: string) {
 }
 
 function controlSpotify(action: string) {
-    console.log("wildcard" + action);
     $.ajax({
         type: "PUT",
         url: "/api/spotify/control",

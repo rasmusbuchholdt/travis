@@ -10,25 +10,28 @@ var Spotify = /** @class */ (function () {
     ;
     Spotify.prototype.controlPlayback = function (action) {
         if (["play", "start", "resume"].indexOf(action) > -1) {
-            this.resume(this.accessToken);
+            this.resume();
         }
         else if (["stop", "pause"].indexOf(action) > -1) {
-            this.pause(this.accessToken);
+            this.pause();
         }
         else if (["next", "skip"].indexOf(action) > -1) {
-            this.next(this.accessToken);
+            this.next();
         }
         else if (["previous"].indexOf(action) > -1) {
-            this.previous(this.accessToken);
+            this.previous();
+        }
+        else if (["shuffle", "random"].indexOf(action) > -1) {
+            this.shuffle();
         }
         ;
     };
-    Spotify.prototype.previous = function (accessToken) {
+    Spotify.prototype.previous = function () {
         var options = {
             method: "POST",
             uri: "https://api.spotify.com/v1/me/player/previous",
             headers: {
-                Authorization: " Bearer " + accessToken
+                Authorization: " Bearer " + this.accessToken
             }
         };
         request(options)
@@ -36,12 +39,12 @@ var Spotify = /** @class */ (function () {
             console.error(error);
         });
     };
-    Spotify.prototype.next = function (accessToken) {
+    Spotify.prototype.next = function () {
         var options = {
             method: "POST",
             uri: "https://api.spotify.com/v1/me/player/next",
             headers: {
-                Authorization: " Bearer " + accessToken
+                Authorization: " Bearer " + this.accessToken
             }
         };
         request(options)
@@ -49,12 +52,12 @@ var Spotify = /** @class */ (function () {
             console.error(error);
         });
     };
-    Spotify.prototype.resume = function (accessToken) {
+    Spotify.prototype.resume = function () {
         var options = {
             method: "PUT",
             uri: "https://api.spotify.com/v1/me/player/play",
             headers: {
-                Authorization: " Bearer " + accessToken
+                Authorization: " Bearer " + this.accessToken
             }
         };
         request(options)
@@ -62,12 +65,25 @@ var Spotify = /** @class */ (function () {
             console.error(error);
         });
     };
-    Spotify.prototype.pause = function (accessToken) {
+    Spotify.prototype.pause = function () {
         var options = {
             method: "PUT",
             uri: "https://api.spotify.com/v1/me/player/pause",
             headers: {
-                Authorization: " Bearer " + accessToken
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        request(options)
+            .catch(function (error) {
+            console.error(error);
+        });
+    };
+    Spotify.prototype.shuffle = function () {
+        var options = {
+            method: "PUT",
+            uri: "https://api.spotify.com/v1/me/player/shuffle?state=true",
+            headers: {
+                Authorization: " Bearer " + this.accessToken
             }
         };
         request(options)

@@ -1,3 +1,5 @@
+import { Promise } from "bluebird";
+
 let spotifyStrategy = require("passport-spotify").Strategy;
 let request = require('request-promise');
 
@@ -25,6 +27,27 @@ export class Spotify {
         } else if (["restart", "replay", "repeat"].indexOf(action) > -1) {
             this.restart();
         }
+    }
+
+    validateToken() {
+        let options: {} = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/me/player",
+            json: true,
+            headers: {
+                Authorization: ` Bearer ${this.accessToken}`
+            }
+        };
+
+        return new Promise((resolve: any, reject: any) => { 
+            request(options)
+            .then(result => {
+                resolve(true);
+            })
+            .catch(error => {
+                resolve(false); 
+            });
+        });
     }
 
     private previous() {
@@ -114,9 +137,9 @@ W
     static authStrategy() {
         return new spotifyStrategy(
             {
-            clientID: process.env.spotityClientID ||config.spotityClientID,
-            clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
-            callbackURL: process.env.callbackURL || config.callbackURL,
+                clientID: process.env.spotityClientID ||config.spotityClientID,
+                clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
+                callbackURL: process.env.callbackURL || config.callbackURL,
             },
             (accessToken, refreshToken, expires_in, profile, done) => {
                 process.nextTick(() => {

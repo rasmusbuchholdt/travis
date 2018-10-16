@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var bluebird_1 = require("bluebird");
 var spotifyStrategy = require("passport-spotify").Strategy;
 var request = require('request-promise');
 var config = require("../../config/app.json");
@@ -27,6 +28,25 @@ var Spotify = /** @class */ (function () {
         else if (["restart", "replay", "repeat"].indexOf(action) > -1) {
             this.restart();
         }
+    };
+    Spotify.prototype.validateToken = function () {
+        var options = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/me/player",
+            json: true,
+            headers: {
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        return new bluebird_1.Promise(function (resolve, reject) {
+            request(options)
+                .then(function (result) {
+                resolve(true);
+            })
+                .catch(function (error) {
+                resolve(false);
+            });
+        });
     };
     Spotify.prototype.previous = function () {
         var options = {

@@ -39,16 +39,20 @@ app.put("/api/spotify/control", function (req, resp) {
     spotify.controlPlayback(action);
     return resp.status(HTTP.OK).send();
 });
-app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state"] }), function (req, resp) { });
+app.put("/api/spotify/validate", function (req, resp) {
+    new spotify_1.Spotify(req.body.accessToken).validateToken().then(function (result) {
+        console.log("validation result" + result);
+        return resp.status(HTTP.OK).json(result);
+    });
+});
+app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), function (req, resp) { });
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), function (req, resp) {
-    resp.cookie("accessToken", req.user.accessToken);
-    resp.cookie("refreshToken", req.user.refreshToken);
+    resp.cookie("spotify_accessToken", req.user.accessToken);
     resp.redirect("/");
 });
 app.get("/logout", function (req, resp) {
     req.logout();
-    resp.clearCookie("accessToken");
-    resp.clearCookie("refreshToken");
+    resp.clearCookie("spotify_accessToken");
     resp.redirect("/");
 });
 app.listen(app.get("port"), function () {

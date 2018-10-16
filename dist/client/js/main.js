@@ -1,3 +1,9 @@
+$(function () {
+    if ($.cookie("spotify_accessToken") != null) {
+        validateSpotifyToken();
+    }
+    ;
+});
 function getDay() {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var date = new Date();
@@ -30,6 +36,27 @@ function controlSpotify(action) {
         data: {
             accessToken: $.cookie("spotify_accessToken"),
             action: action.split(" ").join("").toLowerCase()
+        }
+    });
+}
+function validateSpotifyToken() {
+    $.ajax({
+        type: "PUT",
+        url: "/api/spotify/validate",
+        headers: {
+            Accept: "application/json"
+        },
+        data: {
+            accessToken: $.cookie("spotify_accessToken")
+        },
+        success: function (result) {
+            if (result) {
+                $("#spotify").removeClass("filtered");
+            }
+            else {
+                $(location).attr("href", "/auth/spotify");
+            }
+            ;
         }
     });
 }

@@ -12,22 +12,15 @@ export class Spotify {
     };
 
     controlPlayback(action: string) {
-        switch (action) {
-            case "previous":
-                this.previous(this.accessToken);
-                break;
-            case "next":
-                this.next(this.accessToken);
-                break; 
-            case "pause":
-                this.pause(this.accessToken);
-                break;   
-            case "resume":
-                this.resume(this.accessToken);
-                break;    
-            default:
-                break;
-        }
+        if (["play", "start", "resume"].indexOf(action) > -1) {
+            this.resume(this.accessToken);
+        } else if (["stop", "pause"].indexOf(action) > -1) {
+            this.pause(this.accessToken);
+        } else if (["next", "skip"].indexOf(action) > -1) {
+            this.next(this.accessToken);
+        } else if (["previous"].indexOf(action) > -1) {
+            this.previous(this.accessToken);
+        };
     }
 
     private previous(accessToken: string) {

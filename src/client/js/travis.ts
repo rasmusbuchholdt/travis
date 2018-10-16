@@ -70,7 +70,7 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["* spotify", "* song", "* music"],
+        indexes: ["* spotify", "* song", "* the music", "* music"],
         smart:true,
         action: (i: any, wildcard: string) => {
             controlSpotify(wildcard);
@@ -138,12 +138,13 @@ function getDefinition(term: string) {
 }
 
 function controlSpotify(action: string) {
+    console.log("wildcard" + action);
     $.ajax({
         type: "PUT",
         url: "/api/spotify/control",
         data: {
             accessToken: $.cookie("accessToken"),
-            action
+            action: action.split(' ').join('').toLowerCase()
         }
     }); 
 }

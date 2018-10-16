@@ -67,7 +67,7 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["* spotify", "* song", "* music"],
+        indexes: ["* spotify", "* song", "* the music", "* music"],
         smart: true,
         action: function (i, wildcard) {
             controlSpotify(wildcard);
@@ -131,12 +131,13 @@ function getDefinition(term) {
     });
 }
 function controlSpotify(action) {
+    console.log("wildcard" + action);
     $.ajax({
         type: "PUT",
         url: "/api/spotify/control",
         data: {
             accessToken: $.cookie("accessToken"),
-            action: action
+            action: action.split(' ').join('').toLowerCase()
         }
     });
 }

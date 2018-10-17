@@ -1,5 +1,5 @@
 import { Promise } from "bluebird";
-import { arrayContains, getStringNumber } from "./utils";
+import { arrayContains, getStringNumber, determineDeviceType } from "./utils";
 
 let spotifyStrategy = require("passport-spotify").Strategy;
 let request = require('request-promise');
@@ -54,6 +54,8 @@ export class Spotify {
             this.volumeDown(getStringNumber(action, 10));
         } else if (arrayContains(words, ["up"])) {
             this.volumeUp(getStringNumber(action, 10));
+        } else if (arrayContains(words, ["pc", "computer", "laptop", "mobile", "phone", "smartphone", "tv", "television", "speaker", "speakers"])) {
+            this.transferPlayback(words);
         }
     }
 
@@ -149,6 +151,32 @@ export class Spotify {
         });
     }
 
+    private transferPlayback(words: string[]) {
+        let deviceTypeChoice: string = determineDeviceType(words);
+        if (!deviceTypeChoice) return;     
+        this.getDevices().then(result => {
+            let deviceChoice: string;
+            result.forEach(device => { 
+                if (device.type.toLowerCase() == deviceTypeChoice && device.is_active == false)
+                    deviceChoice = device.id;
+            });
+            if (!deviceChoice) return;
+            let options: {} = {
+                method: "PUT",
+                uri: `https://api.spotify.com/v1/me/player`,
+                headers: {
+                    Authorization: ` Bearer ${this.accessToken}`
+                },
+                body: JSON.stringify({
+                    device_ids: [
+                        deviceChoice
+                    ]
+                })
+            };
+            request(options);
+        });
+    }
+
     private getVolume() {
         let options: {} = {
             method: "GET",
@@ -163,6 +191,24 @@ export class Spotify {
             request(options)
                 .then(result => {
                     resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent })
+                });
+        });
+    }
+
+    private getDevices() {
+        let options: {} = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/me/player/devices",
+            json: true,
+            headers: {
+                Authorization: ` Bearer ${this.accessToken}`
+            }
+        };
+
+        return new Promise((resolve: any, reject: any) => {
+            request(options)
+                .then(result => {    
+                    resolve(result.devices);
                 });
         });
     }

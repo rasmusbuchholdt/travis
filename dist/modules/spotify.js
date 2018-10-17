@@ -56,6 +56,9 @@ var Spotify = /** @class */ (function () {
         else if (utils_1.arrayContains(words, ["up"])) {
             this.volumeUp(utils_1.getStringNumber(action, 10));
         }
+        else if (utils_1.arrayContains(words, ["pc", "computer", "laptop", "mobile", "phone", "smartphone", "tv", "television", "speaker", "speakers"])) {
+            this.transferPlayback(words);
+        }
     };
     Spotify.prototype.previous = function () {
         var options = {
@@ -144,6 +147,34 @@ var Spotify = /** @class */ (function () {
             request(options);
         });
     };
+    Spotify.prototype.transferPlayback = function (words) {
+        var _this = this;
+        var deviceTypeChoice = utils_1.determineDeviceType(words);
+        if (!deviceTypeChoice)
+            return;
+        this.getDevices().then(function (result) {
+            var deviceChoice;
+            result.forEach(function (device) {
+                if (device.type.toLowerCase() == deviceTypeChoice && device.is_active == false)
+                    deviceChoice = device.id;
+            });
+            if (!deviceChoice)
+                return;
+            var options = {
+                method: "PUT",
+                uri: "https://api.spotify.com/v1/me/player",
+                headers: {
+                    Authorization: " Bearer " + _this.accessToken
+                },
+                body: JSON.stringify({
+                    device_ids: [
+                        deviceChoice
+                    ]
+                })
+            };
+            request(options);
+        });
+    };
     Spotify.prototype.getVolume = function () {
         var options = {
             method: "GET",
@@ -157,6 +188,22 @@ var Spotify = /** @class */ (function () {
             request(options)
                 .then(function (result) {
                 resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent });
+            });
+        });
+    };
+    Spotify.prototype.getDevices = function () {
+        var options = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/me/player/devices",
+            json: true,
+            headers: {
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        return new bluebird_1.Promise(function (resolve, reject) {
+            request(options)
+                .then(function (result) {
+                resolve(result.devices);
             });
         });
     };

@@ -76,7 +76,7 @@ artyom.addCommands([
         }
     },
     {
-        indexes: ["* spotify", "spotify *", "* song", "song *", "* music", "music *", "* volume", "volume *"],
+        indexes: ["* spotify", "spotify *", "* song", "song *", "* music", "music *", "* volume", "volume *", "* playback", "playback *"],
         smart: true,
         action: (i: any, wildcard: string) => {
             controlSpotify(wildcard);

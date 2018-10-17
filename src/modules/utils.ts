@@ -13,3 +13,17 @@ export function arrayContains(targetArray: string[], matchArray: string[]) {
     });
     return result;
 }
+
+export function determineDeviceType(words: string[]) {
+    if (arrayContains(words, ["pc", "computer", "laptop"])) {
+        return "computer";
+    } else if (arrayContains(words, ["mobile", "phone", "smartphone"])) {
+        return "smartphone";
+    } else if (arrayContains(words, ["tv", "television"])) {
+        return "tv";
+    } else if (arrayContains(words, ["speaker", "speakers"])) {
+        return "speaker";
+    } else {
+        return null;
+    }
+}

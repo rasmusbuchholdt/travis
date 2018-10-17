@@ -17,3 +17,21 @@ function arrayContains(targetArray, matchArray) {
     return result;
 }
 exports.arrayContains = arrayContains;
+function determineDeviceType(words) {
+    if (arrayContains(words, ["pc", "computer", "laptop"])) {
+        return "computer";
+    }
+    else if (arrayContains(words, ["mobile", "phone", "smartphone"])) {
+        return "smartphone";
+    }
+    else if (arrayContains(words, ["tv", "television"])) {
+        return "tv";
+    }
+    else if (arrayContains(words, ["speaker", "speakers"])) {
+        return "speaker";
+    }
+    else {
+        return null;
+    }
+}
+exports.determineDeviceType = determineDeviceType;

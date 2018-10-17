@@ -1,98 +1,98 @@
 declare let $: any;
 declare let Artyom: any;
-let artyom = new Artyom();
+let travis = new Artyom();
 
-artyom.addCommands([
+travis.addCommands([
     {
         indexes: ["Restart"],
-        action: (i: any) => {
-            artyom.restart().then(() => {
-                artyom.say("I'm back!");
+        action: (index: number) => {
+            travis.restart().then(() => {
+                travis.say("I'm back!");
             });
         }
     },
     {
         indexes: ["Log out", "Logout", "Remove cookies", "Clear cookies", "Signout", "Sign out"],
-        action: (i: any) => {
+        action: (index: number) => {
             $(location).attr("href", "/logout");
         }
     },
     {
         indexes: ["Shut up", "Be quiet"],
-        action: (i: any) => {
-            artyom.restart().then(() => {
-                artyom.shutUp();
+        action: (index: number) => {
+            travis.restart().then(() => {
+                travis.shutUp();
             });
         }
     },
     {
         indexes: ["Stop listening"],
-        action: (i: any) => {
-            artyom.dontObey();
-            artyom.say("I'm not listening anymore.");
+        action: (index: number) => {
+            travis.dontObey();
+            travis.say("I'm not listening anymore.");
         }
     },
     {
         indexes: ["Repeat that", "Say again"],
-        action: (i: any) => {
-            artyom.repeatLastSay();
+        action: (index: number) => {
+            travis.repeatLastSay();
         }
     },
     {
         indexes: ["What day is it"],
-        action: (i: any) => {
+        action: (index: number) => {
             getDay();
         }
     },
     {
         indexes: ["What month is it"],
-        action: (i: any) => {
+        action: (index: number) => {
             getMonth();
         }
     },
     {
         indexes: ["Tell me a joke", "Entertain me"],
-        action: (i: any) => {
+        action: (index: number) => {
             getJoke();
         }
     },
     {
         indexes: ["Enter debug"],
-        action: (i: any) => {
-            artyom.setDebug(true);
+        action: (index: number) => {
+            travis.setDebug(true);
         }
     },
     {
         indexes: ["Leave debug"],
-        action: (i: any) => {
-            artyom.setDebug(false);
+        action: (index: number) => {
+            travis.setDebug(false);
         }
     },
     {
         indexes: ["What is the definition for *", "What does * mean"],
         smart: true,
-        action: (i: any, wildcard: string) => {
+        action: (index: number, wildcard: string) => {
             getDefinition(wildcard);
         }
     },
     {
         indexes: ["* spotify", "spotify *", "* song", "song *", "* music", "music *", "* volume", "volume *", "* playback", "playback *"],
         smart: true,
-        action: (i: any, wildcard: string) => {
+        action: (index: number, wildcard: string) => {
             controlSpotify(wildcard);
         }
     },
     {
         indexes: ["Repeat after me *"],
         smart: true,
-        action: (i: any, wildcard: string) => {
-            artyom.say(`You've said : ${wildcard}`);
+        action: (index: number, wildcard: string) => {
+            travis.say(`You've said : ${wildcard}`);
         }
     }
 ]);
 
-artyom.redirectRecognizedTextOutput((recognized: string, isFinal: boolean) => {
-    if (artyom.isSpeaking()) return;
+travis.redirectRecognizedTextOutput((recognized: string, isFinal: boolean) => {
+    if (travis.isSpeaking()) return;
     if (isFinal) {
         $("#search").val(recognized);
     } else {
@@ -100,7 +100,7 @@ artyom.redirectRecognizedTextOutput((recognized: string, isFinal: boolean) => {
     }
 });
 
-artyom.initialize({
+travis.initialize({
     lang: "en-GB",
     continuous: true,
     soundex: true,
@@ -110,7 +110,7 @@ artyom.initialize({
     listen: true,
     name: "Travis"
 }).then(() => {
-    console.log("Artyom has been succesfully initialized");
+    console.log("travis has been succesfully initialized");
 }).catch((error) => {
-    console.error(`Artyom couldn't be initialized: ${error}`);
+    console.error(`travis couldn't be initialized: ${error}`);
 });

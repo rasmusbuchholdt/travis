@@ -11,12 +11,12 @@ $(function () {
 function getDay() {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var date = new Date();
-    artyom.say("" + days[date.getDay()]);
+    travis.say("" + days[date.getDay()]);
 }
 function getMonth() {
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var date = new Date();
-    artyom.say("" + months[date.getMonth()]);
+    travis.say("" + months[date.getMonth()]);
 }
 function getDefinition(term) {
     $.ajax({
@@ -29,7 +29,7 @@ function getDefinition(term) {
             Accept: "application/json"
         },
         success: function (result) {
-            artyom.say(result);
+            travis.say(result);
         }
     });
 }
@@ -124,7 +124,7 @@ function getJoke() {
             Accept: "application/json"
         },
         success: function (result) {
-            artyom.say(result.joke);
+            travis.say(result.joke);
         }
     });
 }

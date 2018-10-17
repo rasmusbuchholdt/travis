@@ -11,13 +11,13 @@ $(function() {
 function getDay() {
     let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     let date = new Date();
-    artyom.say(`${days[date.getDay()]}`);
+    travis.say(`${days[date.getDay()]}`);
 }
 
 function getMonth() {
     let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     let date = new Date();
-    artyom.say(`${months[date.getMonth()]}`);
+    travis.say(`${months[date.getMonth()]}`);
 }
 
 function getDefinition(term: string) {
@@ -31,7 +31,7 @@ function getDefinition(term: string) {
             Accept: "application/json"
         }, 
         success: function(result: any) {
-            artyom.say(result);
+            travis.say(result);
         }
     }); 
 }
@@ -128,7 +128,7 @@ function getJoke() {
             Accept: "application/json"
         }, 
         success: (result: any) => {
-            artyom.say(result.joke);
+            travis.say(result.joke);
         }
     }); 
 }

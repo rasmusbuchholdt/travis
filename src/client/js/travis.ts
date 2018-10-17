@@ -12,6 +12,12 @@ artyom.addCommands([
         }
     },
     {
+        indexes:["Log out", "Logout", "Remove cookies", "Clear cookies"],
+        action: (i: any) => {
+            $(location).attr("href", "/logout");
+        }
+    },
+    {
         indexes:["Shut up", "Be quiet"],
         action: (i: any) => {
             artyom.restart().then(() => {

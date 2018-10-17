@@ -9,6 +9,12 @@ artyom.addCommands([
         }
     },
     {
+        indexes: ["Log out", "Logout", "Remove cookies", "Clear cookies"],
+        action: function (i) {
+            $(location).attr("href", "/logout");
+        }
+    },
+    {
         indexes: ["Shut up", "Be quiet"],
         action: function (i) {
             artyom.restart().then(function () {

@@ -38,7 +38,9 @@ export class Spotify {
     handleAction(action: string) {
         let words: string[] = [];
         words = action.toLowerCase().split(" ");
-        if (arrayContains(words, ["play", "start", "resume"])) {
+        if (arrayContains(words, ["play", "start"])) {
+            this.playTrack(action);
+        } else if (arrayContains(words, ["resume"])) {
             this.resume();
         } else if (arrayContains(words, ["stop", "pause"])) {
             this.pause();
@@ -180,6 +182,31 @@ export class Spotify {
         });
     }
 
+    private playTrack(query: string) {
+        this.getTrack(query).then(result => {
+            let maxPopularity: number = 0;
+            let trackChoice: string;
+            result.forEach(track => {
+                if(track.popularity > maxPopularity) {
+                    maxPopularity = track.popularity;
+                    trackChoice = track.uri;     
+                }
+            });
+            if (!trackChoice) return;
+            let options: {} = {
+                method: "PUT",
+                uri: `https://api.spotify.com/v1/me/player/play`,
+                headers: {
+                    Authorization: ` Bearer ${this.accessToken}`
+                },
+                body: JSON.stringify({
+                    uris: [trackChoice]
+                })
+            };
+            request(options);
+        });
+    }
+
     private getPlayback() {
         let options: {} = {
             method: "GET",
@@ -212,6 +239,25 @@ export class Spotify {
             request(options)
                 .then(result => {    
                     resolve(result.devices);
+                });
+        });
+    }
+
+    private getTrack(query: string) {
+        query = query.replace("play", "").replace("start", "").replace(" ", "%20");
+        let options: {} = {
+            method: "GET",
+            uri: `https://api.spotify.com/v1/search?query=${query}&type=track&market=DK&offset=0&limit=5`,
+            json: true,
+            headers: {
+                Authorization: ` Bearer ${this.accessToken}`
+            }
+        };
+
+        return new Promise((resolve: any, reject: any) => {
+            request(options)
+                .then(result => {
+                    resolve(result.tracks.items);
                 });
         });
     }

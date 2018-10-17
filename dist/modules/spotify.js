@@ -32,7 +32,10 @@ var Spotify = /** @class */ (function () {
     Spotify.prototype.handleAction = function (action) {
         var words = [];
         words = action.toLowerCase().split(" ");
-        if (utils_1.arrayContains(words, ["play", "start", "resume"])) {
+        if (utils_1.arrayContains(words, ["play", "start"])) {
+            this.playTrack(action);
+        }
+        else if (utils_1.arrayContains(words, ["resume"])) {
             this.resume();
         }
         else if (utils_1.arrayContains(words, ["stop", "pause"])) {
@@ -179,6 +182,32 @@ var Spotify = /** @class */ (function () {
             request(options);
         });
     };
+    Spotify.prototype.playTrack = function (query) {
+        var _this = this;
+        this.getTrack(query).then(function (result) {
+            var maxPopularity = 0;
+            var trackChoice;
+            result.forEach(function (track) {
+                if (track.popularity > maxPopularity) {
+                    maxPopularity = track.popularity;
+                    trackChoice = track.uri;
+                }
+            });
+            if (!trackChoice)
+                return;
+            var options = {
+                method: "PUT",
+                uri: "https://api.spotify.com/v1/me/player/play",
+                headers: {
+                    Authorization: " Bearer " + _this.accessToken
+                },
+                body: JSON.stringify({
+                    uris: [trackChoice]
+                })
+            };
+            request(options);
+        });
+    };
     Spotify.prototype.getPlayback = function () {
         var options = {
             method: "GET",
@@ -208,6 +237,23 @@ var Spotify = /** @class */ (function () {
             request(options)
                 .then(function (result) {
                 resolve(result.devices);
+            });
+        });
+    };
+    Spotify.prototype.getTrack = function (query) {
+        query = query.replace("play", "").replace("start", "").replace(" ", "%20");
+        var options = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/search?query=" + query + "&type=track&market=DK&offset=0&limit=5",
+            json: true,
+            headers: {
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        return new bluebird_1.Promise(function (resolve, reject) {
+            request(options)
+                .then(function (result) {
+                resolve(result.tracks.items);
             });
         });
     };

@@ -2,6 +2,10 @@ $(function() {
     if ($.cookie("spotify_accessToken") != null) {
         validateSpotifyToken();
     };
+
+    if ($.cookie("plex_ip") != null && $.cookie("plex_port") != null && $.cookie("plex_accessToken") != null) {
+        validatePlexToken();
+    };
 });
 
 function getDay() {
@@ -58,6 +62,28 @@ function validateSpotifyToken() {
                 $("#spotify").removeClass("filtered");
             } else {
                 $(location).attr("href", "/auth/spotify");
+            };
+        }
+    });
+}
+
+function validatePlexToken() {
+    $.ajax({
+        type: "PUT",
+        url: "/api/plex/validate",
+        headers: {          
+            Accept: "application/json"
+        },
+        data: {
+            ip: $.cookie("plex_ip"),
+            port: $.cookie("plex_port"),      
+            accessToken: $.cookie("plex_accessToken")
+        },
+        success: (result : boolean) => {
+            if(result) {
+                $("#plex").removeClass("filtered");
+            } else {
+                // Let the user know the token is now invalid
             };
         }
     });

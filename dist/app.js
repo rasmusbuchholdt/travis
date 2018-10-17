@@ -68,6 +68,9 @@ app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedi
 app.get("/logout", function (req, resp) {
     req.logout();
     resp.clearCookie("spotify_accessToken");
+    resp.clearCookie("plex_ip");
+    resp.clearCookie("plex_port");
+    resp.clearCookie("plex_accessToken");
     resp.redirect("/");
 });
 app.listen(app.get("port"), function () {

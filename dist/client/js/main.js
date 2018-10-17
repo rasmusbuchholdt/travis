@@ -87,8 +87,38 @@ function validatePlexToken() {
         }
     });
 }
+function getPlexPin() {
+    $.ajax({
+        type: "GET",
+        url: "/api/plex/auth",
+        headers: {
+            Accept: "application/json"
+        },
+        success: function (result) {
+            console.log(result);
+        }
+    });
+}
+function checkPlexPin(requestId) {
+    $.ajax({
+        type: "PUT",
+        url: "/api/plex/auth",
+        headers: {
+            Accept: "application/json"
+        },
+        data: {
+            requestId: requestId
+        },
+        success: function (result) {
+            if (result != null) {
+                $.cookie("plex_accessToken", result);
+            }
+        }
+    });
+}
 function getJoke() {
     $.ajax({
+        type: "GET",
         url: "https://icanhazdadjoke.com/",
         headers: {
             Accept: "application/json"

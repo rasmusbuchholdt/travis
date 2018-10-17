@@ -42,7 +42,7 @@ function controlSpotify(action: string) {
         url: "/api/spotify/control",
         data: {
             accessToken: $.cookie("spotify_accessToken"),
-            action: action
+            action
         }
     }); 
 }

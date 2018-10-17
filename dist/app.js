@@ -28,16 +28,12 @@ app.get("/js/artyom.window.js", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
 });
 app.put("/api/urban-dictionary", function (req, resp) {
-    var term = req.body.term;
-    ud.term(term).then(function (result) {
+    ud.term(req.body.term).then(function (result) {
         return resp.status(HTTP.OK).json(result.entries[0].definition);
     });
 });
 app.put("/api/spotify/control", function (req, resp) {
-    var accessToken = req.body.accessToken;
-    var action = req.body.action;
-    var spotify = new spotify_1.Spotify(accessToken);
-    spotify.handleAction(action);
+    new spotify_1.Spotify(req.body.accessToken).handleAction(req.body.action);
     return resp.status(HTTP.OK).send();
 });
 app.put("/api/spotify/validate", function (req, resp) {

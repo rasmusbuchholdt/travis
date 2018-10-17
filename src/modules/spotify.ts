@@ -24,14 +24,14 @@ export class Spotify {
             }
         };
 
-        return new Promise((resolve: any, reject: any) => { 
+        return new Promise((resolve: any, reject: any) => {
             request(options)
-            .then(result => {
-                resolve(true);
-            })
-            .catch(error => {
-                resolve(false); 
-            });
+                .then(result => {
+                    resolve(true);
+                })
+                .catch(error => {
+                    resolve(false);
+                });
         });
     }
 
@@ -159,18 +159,18 @@ export class Spotify {
             }
         };
 
-        return new Promise((resolve: any, reject: any) => { 
+        return new Promise((resolve: any, reject: any) => {
             request(options)
-            .then(result => {
-                resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent })  
-            });
+                .then(result => {
+                    resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent })
+                });
         });
     }
 
     static authStrategy() {
         return new spotifyStrategy(
             {
-                clientID: process.env.spotityClientID ||config.spotityClientID,
+                clientID: process.env.spotityClientID || config.spotityClientID,
                 clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
                 callbackURL: process.env.callbackURL || config.callbackURL,
             },

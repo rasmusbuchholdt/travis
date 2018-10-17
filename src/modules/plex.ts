@@ -38,7 +38,7 @@ export class Plex {
                 plexPin.setExpireTime(result);
                 plexPin.setPin(result);
                 plexPin.setRequestId(result);
-                resolve({ pin: plexPin.getPin(), requestId: plexPin.getRequestId(), expiration: plexPin.getExpireTime()});
+                resolve({ pin: plexPin.getPin(), requestId: plexPin.getRequestId(), expiration: plexPin.getExpireTime() });
             });
         });
     }

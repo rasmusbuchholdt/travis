@@ -33,22 +33,18 @@ app.get("/js/artyom.window.js", (req: any, resp: any) => {
 });
 
 app.put("/api/urban-dictionary", (req: any, resp: any) => {
-    let term: string = req.body.term;
-    ud.term(term).then((result) => {
+    ud.term(req.body.term).then((result) => {
         return resp.status(HTTP.OK).json(result.entries[0].definition);
     });
 });
 
 app.put("/api/spotify/control", (req: any, resp: any) => {
-    let accessToken: string = req.body.accessToken;
-    let action: string = req.body.action;
-    let spotify: Spotify = new Spotify(accessToken);
-    spotify.handleAction(action);
+    new Spotify(req.body.accessToken).handleAction(req.body.action);
     return resp.status(HTTP.OK).send();
 });
 
 app.put("/api/spotify/validate", (req: any, resp: any) => {
-    new Spotify(req.body.accessToken).validateToken().then(result => { 
+    new Spotify(req.body.accessToken).validateToken().then(result => {
         return resp.status(HTTP.OK).json(result);
     })
 });
@@ -71,7 +67,7 @@ app.put("/api/plex/auth", (req: any, resp: any) => {
     })
 });
 
-app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), (req: any, resp: any) => {});
+app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), (req: any, resp: any) => { });
 
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), (req: any, resp: any) => {
     resp.cookie("spotify_accessToken", req.user.accessToken);

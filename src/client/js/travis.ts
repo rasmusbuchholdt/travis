@@ -4,7 +4,7 @@ let artyom = new Artyom();
 
 artyom.addCommands([
     {
-        indexes:["Restart"],
+        indexes: ["Restart"],
         action: (i: any) => {
             artyom.restart().then(() => {
                 artyom.say("I'm back!");
@@ -12,13 +12,13 @@ artyom.addCommands([
         }
     },
     {
-        indexes:["Log out", "Logout", "Remove cookies", "Clear cookies", "Signout", "Sign out"],
+        indexes: ["Log out", "Logout", "Remove cookies", "Clear cookies", "Signout", "Sign out"],
         action: (i: any) => {
             $(location).attr("href", "/logout");
         }
     },
     {
-        indexes:["Shut up", "Be quiet"],
+        indexes: ["Shut up", "Be quiet"],
         action: (i: any) => {
             artyom.restart().then(() => {
                 artyom.shutUp();
@@ -26,14 +26,14 @@ artyom.addCommands([
         }
     },
     {
-        indexes:["Stop listening"],
+        indexes: ["Stop listening"],
         action: (i: any) => {
             artyom.dontObey();
             artyom.say("I'm not listening anymore.");
         }
     },
     {
-        indexes:["Repeat that", "Say again"],
+        indexes: ["Repeat that", "Say again"],
         action: (i: any) => {
             artyom.repeatLastSay();
         }
@@ -70,30 +70,30 @@ artyom.addCommands([
     },
     {
         indexes: ["What is the definition for *", "What does * mean"],
-        smart:true,
+        smart: true,
         action: (i: any, wildcard: string) => {
             getDefinition(wildcard);
         }
     },
     {
         indexes: ["* spotify", "spotify *", "* song", "song *", "* music", "music *", "* volume", "volume *"],
-        smart:true,
+        smart: true,
         action: (i: any, wildcard: string) => {
             controlSpotify(wildcard);
         }
     },
     {
         indexes: ["Repeat after me *"],
-        smart:true,
+        smart: true,
         action: (i: any, wildcard: string) => {
             artyom.say(`You've said : ${wildcard}`);
         }
-    } 
+    }
 ]);
 
-artyom.redirectRecognizedTextOutput(function(recognized: string, isFinal: boolean){
+artyom.redirectRecognizedTextOutput((recognized: string, isFinal: boolean) => {
     if (artyom.isSpeaking()) return;
-    if(isFinal) {
+    if (isFinal) {
         $("#search").val(recognized);
     } else {
         $("#search").attr("placeholder", recognized).val("").focus().blur();
@@ -108,7 +108,7 @@ artyom.initialize({
     obeyKeyword: "start listening",
     executionKeyword: "and do it now",
     listen: true,
-    name: "Travis" 
+    name: "Travis"
 }).then(() => {
     console.log("Artyom has been succesfully initialized");
 }).catch((error) => {

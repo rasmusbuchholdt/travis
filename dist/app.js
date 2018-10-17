@@ -37,7 +37,7 @@ app.put("/api/spotify/control", function (req, resp) {
     var accessToken = req.body.accessToken;
     var action = req.body.action;
     var spotify = new spotify_1.Spotify(accessToken);
-    spotify.controlPlayback(action);
+    spotify.handleAction(action);
     return resp.status(HTTP.OK).send();
 });
 app.put("/api/spotify/validate", function (req, resp) {

@@ -1,4 +1,5 @@
 import { Promise } from "bluebird";
+import { arrayContains, getStringNumber } from "./utils";
 
 let spotifyStrategy = require("passport-spotify").Strategy;
 let request = require('request-promise');
@@ -12,22 +13,6 @@ export class Spotify {
     constructor(accessToken: string) {
         this.accessToken = accessToken;
     };
-
-    controlPlayback(action: string) {
-        if (["play", "start", "resume"].indexOf(action) > -1) {
-            this.resume();
-        } else if (["stop", "pause"].indexOf(action) > -1) {
-            this.pause();
-        } else if (["next", "skip"].indexOf(action) > -1) {
-            this.next();
-        } else if (["previous"].indexOf(action) > -1) {
-            this.previous();
-        } else if (["shuffle", "random"].indexOf(action) > -1) {
-            this.shuffle();
-        } else if (["restart", "replay", "repeat"].indexOf(action) > -1) {
-            this.restart();
-        }
-    }
 
     validateToken() {
         let options: {} = {
@@ -48,6 +33,28 @@ export class Spotify {
                 resolve(false); 
             });
         });
+    }
+
+    handleAction(action: string) {
+        let words: string[] = [];
+        words = action.toLowerCase().split(" ");
+        if (arrayContains(words, ["play", "start", "resume"])) {
+            this.resume();
+        } else if (arrayContains(words, ["stop", "pause"])) {
+            this.pause();
+        } else if (arrayContains(words, ["next", "skip"])) {
+            this.next();
+        } else if (arrayContains(words, ["previous"])) {
+            this.previous();
+        } else if (arrayContains(words, ["shuffle", "random"])) {
+            this.shuffle();
+        } else if (arrayContains(words, ["restart", "replay", "repeat"])) {
+            this.restart();
+        } else if (arrayContains(words, ["down"])) {
+            this.volumeDown(getStringNumber(action, 10));
+        } else if (arrayContains(words, ["up"])) {
+            this.volumeUp(getStringNumber(action, 10));
+        }
     }
 
     private previous() {

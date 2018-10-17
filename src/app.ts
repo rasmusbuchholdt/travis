@@ -43,7 +43,7 @@ app.put("/api/spotify/control", (req: any, resp: any) => {
     let accessToken: string = req.body.accessToken;
     let action: string = req.body.action;
     let spotify: Spotify = new Spotify(accessToken);
-    spotify.controlPlayback(action);
+    spotify.handleAction(action);
     return resp.status(HTTP.OK).send();
 });
 

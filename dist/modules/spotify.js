@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var bluebird_1 = require("bluebird");
+var utils_1 = require("./utils");
 var spotifyStrategy = require("passport-spotify").Strategy;
 var request = require('request-promise');
 var config = require("../../config/app.json");
@@ -9,26 +10,6 @@ var Spotify = /** @class */ (function () {
         this.accessToken = accessToken;
     }
     ;
-    Spotify.prototype.controlPlayback = function (action) {
-        if (["play", "start", "resume"].indexOf(action) > -1) {
-            this.resume();
-        }
-        else if (["stop", "pause"].indexOf(action) > -1) {
-            this.pause();
-        }
-        else if (["next", "skip"].indexOf(action) > -1) {
-            this.next();
-        }
-        else if (["previous"].indexOf(action) > -1) {
-            this.previous();
-        }
-        else if (["shuffle", "random"].indexOf(action) > -1) {
-            this.shuffle();
-        }
-        else if (["restart", "replay", "repeat"].indexOf(action) > -1) {
-            this.restart();
-        }
-    };
     Spotify.prototype.validateToken = function () {
         var options = {
             method: "GET",
@@ -47,6 +28,34 @@ var Spotify = /** @class */ (function () {
                 resolve(false);
             });
         });
+    };
+    Spotify.prototype.handleAction = function (action) {
+        var words = [];
+        words = action.toLowerCase().split(" ");
+        if (utils_1.arrayContains(words, ["play", "start", "resume"])) {
+            this.resume();
+        }
+        else if (utils_1.arrayContains(words, ["stop", "pause"])) {
+            this.pause();
+        }
+        else if (utils_1.arrayContains(words, ["next", "skip"])) {
+            this.next();
+        }
+        else if (utils_1.arrayContains(words, ["previous"])) {
+            this.previous();
+        }
+        else if (utils_1.arrayContains(words, ["shuffle", "random"])) {
+            this.shuffle();
+        }
+        else if (utils_1.arrayContains(words, ["restart", "replay", "repeat"])) {
+            this.restart();
+        }
+        else if (utils_1.arrayContains(words, ["down"])) {
+            this.volumeDown(utils_1.getStringNumber(action, 10));
+        }
+        else if (utils_1.arrayContains(words, ["up"])) {
+            this.volumeUp(utils_1.getStringNumber(action, 10));
+        }
     };
     Spotify.prototype.previous = function () {
         var options = {

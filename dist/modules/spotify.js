@@ -59,6 +59,9 @@ var Spotify = /** @class */ (function () {
         else if (utils_1.arrayContains(words, ["up"])) {
             this.volumeUp(utils_1.getStringNumber(action, 10));
         }
+        else if (utils_1.arrayContains(words, ["seek", "jump"])) {
+            this.seek(utils_1.getStringNumber(action, null));
+        }
         else if (utils_1.arrayContains(words, ["pc", "computer", "laptop", "mobile", "phone", "smartphone", "tv", "television", "speaker", "speakers"])) {
             this.transferPlayback(words);
         }
@@ -121,6 +124,18 @@ var Spotify = /** @class */ (function () {
         var options = {
             method: "PUT",
             uri: "https://api.spotify.com/v1/me/player/seek?position_ms=0",
+            headers: {
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        request(options);
+    };
+    Spotify.prototype.seek = function (position) {
+        if (!position)
+            return;
+        var options = {
+            method: "PUT",
+            uri: "https://api.spotify.com/v1/me/player/seek?position_ms=" + position * 1000,
             headers: {
                 Authorization: " Bearer " + this.accessToken
             }

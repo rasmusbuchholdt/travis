@@ -56,6 +56,8 @@ export class Spotify {
             this.volumeDown(getStringNumber(action, 10));
         } else if (arrayContains(words, ["up"])) {
             this.volumeUp(getStringNumber(action, 10));
+        } else if (arrayContains(words, ["seek", "jump"])) {
+            this.seek(getStringNumber(action, null));
         } else if (arrayContains(words, ["pc", "computer", "laptop", "mobile", "phone", "smartphone", "tv", "television", "speaker", "speakers"])) {
             this.transferPlayback(words);
         }
@@ -123,6 +125,18 @@ export class Spotify {
         let options: {} = {
             method: "PUT",
             uri: "https://api.spotify.com/v1/me/player/seek?position_ms=0",
+            headers: {
+                Authorization: ` Bearer ${this.accessToken}`
+            }
+        };
+        request(options);
+    }
+
+    private seek(position: number) {
+        if (!position) return;
+        let options: {} = {
+            method: "PUT",
+            uri: `https://api.spotify.com/v1/me/player/seek?position_ms=${position * 1000}`,
             headers: {
                 Authorization: ` Bearer ${this.accessToken}`
             }

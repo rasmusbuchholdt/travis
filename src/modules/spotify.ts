@@ -58,10 +58,7 @@ export class Spotify {
                 Authorization: ` Bearer ${this.accessToken}`
             }
         };
-        request(options)
-        .catch(error => {
-            console.error(error);
-        });
+        request(options);
     }
 
     private next() {
@@ -72,10 +69,7 @@ export class Spotify {
                 Authorization: ` Bearer ${this.accessToken}`
             }
         };
-        request(options)
-        .catch(error => {
-            console.error(error);
-        });
+        request(options);
     }
 
     private resume() {
@@ -86,10 +80,7 @@ export class Spotify {
                 Authorization: ` Bearer ${this.accessToken}`
             }
         };
-        request(options)
-        .catch(error => {
-            console.error(error);
-        });
+        request(options);
     }
 
     private pause() {
@@ -100,10 +91,7 @@ export class Spotify {
                 Authorization: ` Bearer ${this.accessToken}`
             }
         };
-        request(options)
-        .catch(error => {
-            console.error(error);
-        });
+        request(options);
     }
 
     private shuffle() {
@@ -114,10 +102,7 @@ export class Spotify {
                 Authorization: ` Bearer ${this.accessToken}`
             }
         };
-        request(options)
-        .catch(error => {
-            console.error(error);
-        });
+        request(options);
     }
 
     private restart() {
@@ -128,12 +113,9 @@ export class Spotify {
                 Authorization: ` Bearer ${this.accessToken}`
             }
         };
-        request(options)
-        .catch(error => {
-            console.error(error);
-        });
+        request(options);
     }
-W
+
     static authStrategy() {
         return new spotifyStrategy(
             {

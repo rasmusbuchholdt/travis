@@ -56,10 +56,7 @@ var Spotify = /** @class */ (function () {
                 Authorization: " Bearer " + this.accessToken
             }
         };
-        request(options)
-            .catch(function (error) {
-            console.error(error);
-        });
+        request(options);
     };
     Spotify.prototype.next = function () {
         var options = {
@@ -69,10 +66,7 @@ var Spotify = /** @class */ (function () {
                 Authorization: " Bearer " + this.accessToken
             }
         };
-        request(options)
-            .catch(function (error) {
-            console.error(error);
-        });
+        request(options);
     };
     Spotify.prototype.resume = function () {
         var options = {
@@ -82,10 +76,7 @@ var Spotify = /** @class */ (function () {
                 Authorization: " Bearer " + this.accessToken
             }
         };
-        request(options)
-            .catch(function (error) {
-            console.error(error);
-        });
+        request(options);
     };
     Spotify.prototype.pause = function () {
         var options = {
@@ -95,10 +86,7 @@ var Spotify = /** @class */ (function () {
                 Authorization: " Bearer " + this.accessToken
             }
         };
-        request(options)
-            .catch(function (error) {
-            console.error(error);
-        });
+        request(options);
     };
     Spotify.prototype.shuffle = function () {
         var options = {
@@ -108,10 +96,7 @@ var Spotify = /** @class */ (function () {
                 Authorization: " Bearer " + this.accessToken
             }
         };
-        request(options)
-            .catch(function (error) {
-            console.error(error);
-        });
+        request(options);
     };
     Spotify.prototype.restart = function () {
         var options = {
@@ -121,10 +106,7 @@ var Spotify = /** @class */ (function () {
                 Authorization: " Bearer " + this.accessToken
             }
         };
-        request(options)
-            .catch(function (error) {
-            console.error(error);
-        });
+        request(options);
     };
     Spotify.authStrategy = function () {
         return new spotifyStrategy({

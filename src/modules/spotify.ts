@@ -116,6 +116,50 @@ export class Spotify {
         request(options);
     }
 
+    private volumeUp(amount: number) {
+        this.getVolume().then(result => {
+            let options: {} = {
+                method: "PUT",
+                uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${result.volumePercent + amount}`,
+                headers: {
+                    Authorization: ` Bearer ${this.accessToken}`
+                }
+            };
+            request(options);
+        });
+    }
+
+    private volumeDown(amount: number = null) {
+        this.getVolume().then(result => {
+            let options: {} = {
+                method: "PUT",
+                uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${result.volumePercent - amount || 10}`,
+                headers: {
+                    Authorization: ` Bearer ${this.accessToken}`
+                }
+            };
+            request(options);
+        });
+    }
+
+    private getVolume() {
+        let options: {} = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/me/player",
+            json: true,
+            headers: {
+                Authorization: ` Bearer ${this.accessToken}`
+            }
+        };
+
+        return new Promise((resolve: any, reject: any) => { 
+            request(options)
+            .then(result => {
+                resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent })  
+            });
+        });
+    }
+
     static authStrategy() {
         return new spotifyStrategy(
             {

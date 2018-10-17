@@ -108,6 +108,49 @@ var Spotify = /** @class */ (function () {
         };
         request(options);
     };
+    Spotify.prototype.volumeUp = function (amount) {
+        var _this = this;
+        this.getVolume().then(function (result) {
+            var options = {
+                method: "PUT",
+                uri: "https://api.spotify.com/v1/me/player/volume?volume_percent=" + (result.volumePercent + amount),
+                headers: {
+                    Authorization: " Bearer " + _this.accessToken
+                }
+            };
+            request(options);
+        });
+    };
+    Spotify.prototype.volumeDown = function (amount) {
+        var _this = this;
+        if (amount === void 0) { amount = null; }
+        this.getVolume().then(function (result) {
+            var options = {
+                method: "PUT",
+                uri: "https://api.spotify.com/v1/me/player/volume?volume_percent=" + (result.volumePercent - amount || 10),
+                headers: {
+                    Authorization: " Bearer " + _this.accessToken
+                }
+            };
+            request(options);
+        });
+    };
+    Spotify.prototype.getVolume = function () {
+        var options = {
+            method: "GET",
+            uri: "https://api.spotify.com/v1/me/player",
+            json: true,
+            headers: {
+                Authorization: " Bearer " + this.accessToken
+            }
+        };
+        return new bluebird_1.Promise(function (resolve, reject) {
+            request(options)
+                .then(function (result) {
+                resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent });
+            });
+        });
+    };
     Spotify.authStrategy = function () {
         return new spotifyStrategy({
             clientID: process.env.spotityClientID || config.spotityClientID,

@@ -59,6 +59,18 @@ app.put("/api/plex/validate", (req: any, resp: any) => {
     })
 });
 
+app.get("/api/plex/auth", (req: any, resp: any) => {
+    Plex.getPin().then(result => {
+        return resp.status(HTTP.OK).json(result);
+    })
+});
+
+app.put("/api/plex/auth", (req: any, resp: any) => {
+    Plex.checkPin(req.body.requestId).then(result => {
+        return resp.status(HTTP.OK).json(result);
+    })
+});
+
 app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), (req: any, resp: any) => {});
 
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), (req: any, resp: any) => {

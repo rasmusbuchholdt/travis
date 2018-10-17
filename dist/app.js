@@ -50,6 +50,16 @@ app.put("/api/plex/validate", function (req, resp) {
         return resp.status(HTTP.OK).json(result);
     });
 });
+app.get("/api/plex/auth", function (req, resp) {
+    plex_1.Plex.getPin().then(function (result) {
+        return resp.status(HTTP.OK).json(result);
+    });
+});
+app.put("/api/plex/auth", function (req, resp) {
+    plex_1.Plex.checkPin(req.body.requestId).then(function (result) {
+        return resp.status(HTTP.OK).json(result);
+    });
+});
 app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), function (req, resp) { });
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), function (req, resp) {
     resp.cookie("spotify_accessToken", req.user.accessToken);

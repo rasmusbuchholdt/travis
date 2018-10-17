@@ -12,7 +12,7 @@ artyom.addCommands([
         }
     },
     {
-        indexes:["Log out", "Logout", "Remove cookies", "Clear cookies"],
+        indexes:["Log out", "Logout", "Remove cookies", "Clear cookies", "Signout", "Sign out"],
         action: (i: any) => {
             $(location).attr("href", "/logout");
         }

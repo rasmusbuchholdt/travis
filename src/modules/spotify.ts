@@ -104,14 +104,17 @@ export class Spotify {
     }
 
     private shuffle() {
-        let options: {} = {
-            method: "PUT",
-            uri: "https://api.spotify.com/v1/me/player/shuffle?state=true",
-            headers: {
-                Authorization: ` Bearer ${this.accessToken}`
-            }
-        };
-        request(options);
+        this.getPlayback().then(result => {
+            let choice: boolean = result.shuffle_state = !result.shuffle_state;
+            let options: {} = {
+                method: "PUT",
+                uri: `https://api.spotify.com/v1/me/player/shuffle?state=${choice}`,
+                headers: {
+                    Authorization: ` Bearer ${this.accessToken}`
+                }
+            };
+            request(options);
+        });
     }
 
     private restart() {
@@ -126,10 +129,10 @@ export class Spotify {
     }
 
     private volumeUp(amount: number) {
-        this.getVolume().then(result => {
+        this.getPlayback().then(result => {
             let options: {} = {
                 method: "PUT",
-                uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${result.volumePercent + amount}`,
+                uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${result.device.volume_percent + amount || 10}`,
                 headers: {
                     Authorization: ` Bearer ${this.accessToken}`
                 }
@@ -139,10 +142,10 @@ export class Spotify {
     }
 
     private volumeDown(amount: number = null) {
-        this.getVolume().then(result => {
+        this.getPlayback().then(result => {
             let options: {} = {
                 method: "PUT",
-                uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${result.volumePercent - amount || 10}`,
+                uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${result.device.volume_percent - amount || 10}`,
                 headers: {
                     Authorization: ` Bearer ${this.accessToken}`
                 }
@@ -177,7 +180,7 @@ export class Spotify {
         });
     }
 
-    private getVolume() {
+    private getPlayback() {
         let options: {} = {
             method: "GET",
             uri: "https://api.spotify.com/v1/me/player",
@@ -190,7 +193,7 @@ export class Spotify {
         return new Promise((resolve: any, reject: any) => {
             request(options)
                 .then(result => {
-                    resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent })
+                    resolve(result);
                 });
         });
     }

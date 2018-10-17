@@ -101,14 +101,18 @@ var Spotify = /** @class */ (function () {
         request(options);
     };
     Spotify.prototype.shuffle = function () {
-        var options = {
-            method: "PUT",
-            uri: "https://api.spotify.com/v1/me/player/shuffle?state=true",
-            headers: {
-                Authorization: " Bearer " + this.accessToken
-            }
-        };
-        request(options);
+        var _this = this;
+        this.getPlayback().then(function (result) {
+            var choice = result.shuffle_state = !result.shuffle_state;
+            var options = {
+                method: "PUT",
+                uri: "https://api.spotify.com/v1/me/player/shuffle?state=" + choice,
+                headers: {
+                    Authorization: " Bearer " + _this.accessToken
+                }
+            };
+            request(options);
+        });
     };
     Spotify.prototype.restart = function () {
         var options = {
@@ -122,10 +126,10 @@ var Spotify = /** @class */ (function () {
     };
     Spotify.prototype.volumeUp = function (amount) {
         var _this = this;
-        this.getVolume().then(function (result) {
+        this.getPlayback().then(function (result) {
             var options = {
                 method: "PUT",
-                uri: "https://api.spotify.com/v1/me/player/volume?volume_percent=" + (result.volumePercent + amount),
+                uri: "https://api.spotify.com/v1/me/player/volume?volume_percent=" + (result.device.volume_percent + amount || 10),
                 headers: {
                     Authorization: " Bearer " + _this.accessToken
                 }
@@ -136,10 +140,10 @@ var Spotify = /** @class */ (function () {
     Spotify.prototype.volumeDown = function (amount) {
         var _this = this;
         if (amount === void 0) { amount = null; }
-        this.getVolume().then(function (result) {
+        this.getPlayback().then(function (result) {
             var options = {
                 method: "PUT",
-                uri: "https://api.spotify.com/v1/me/player/volume?volume_percent=" + (result.volumePercent - amount || 10),
+                uri: "https://api.spotify.com/v1/me/player/volume?volume_percent=" + (result.device.volume_percent - amount || 10),
                 headers: {
                     Authorization: " Bearer " + _this.accessToken
                 }
@@ -175,7 +179,7 @@ var Spotify = /** @class */ (function () {
             request(options);
         });
     };
-    Spotify.prototype.getVolume = function () {
+    Spotify.prototype.getPlayback = function () {
         var options = {
             method: "GET",
             uri: "https://api.spotify.com/v1/me/player",
@@ -187,7 +191,7 @@ var Spotify = /** @class */ (function () {
         return new bluebird_1.Promise(function (resolve, reject) {
             request(options)
                 .then(function (result) {
-                resolve({ deviceType: result.device.type.toLowerCase(), volumePercent: result.device.volume_percent });
+                resolve(result);
             });
         });
     };

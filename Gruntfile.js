@@ -5,7 +5,7 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: 'dist/client/js',
+                    cwd: 'dist/client_js',
                     src: '**/*.js',
                     dest: 'dist/client/js',
                     ext: '.min.js'
@@ -20,7 +20,7 @@ module.exports = function (grunt) {
             target: {
                 files: [{
                     expand: true,
-                    cwd: 'dist/client/css',
+                    cwd: 'src/client/css',
                     src: '**/*.css',
                     dest: 'dist/client/css',
                     ext: '.min.css'

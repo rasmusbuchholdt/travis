@@ -276,7 +276,7 @@ var Spotify = /** @class */ (function () {
         return new spotifyStrategy({
             clientID: process.env.spotityClientID || config.spotityClientID,
             clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
-            callbackURL: process.env.spotifycallbackURL || config.callbackURL,
+            callbackURL: process.env.spotifyCallbackURL || config.spotifyCallbackURL,
         }, function (accessToken, refreshToken, expires_in, profile, done) {
             process.nextTick(function () {
                 return done(null, { accessToken: accessToken, refreshToken: refreshToken, expires_in: expires_in, profile: profile });

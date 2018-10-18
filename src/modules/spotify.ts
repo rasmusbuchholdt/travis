@@ -281,7 +281,7 @@ export class Spotify {
             {
                 clientID: process.env.spotityClientID || config.spotityClientID,
                 clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
-                callbackURL: process.env.spotifycallbackURL || config.callbackURL,
+                callbackURL: process.env.spotifyCallbackURL || config.spotifyCallbackURL,
             },
             (accessToken, refreshToken, expires_in, profile, done) => {
                 process.nextTick(() => {

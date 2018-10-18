@@ -28,7 +28,7 @@ app.use((req: any, resp: any, next: any) => {
 
 app.set("port", (process.env.PORT || config.port));
 
-app.get("/js/artyom.window.js", (req: any, resp: any) => {
+app.get("/js/artyom.window.min.js", (req: any, resp: any) => {
     resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
 });
 

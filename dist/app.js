@@ -24,7 +24,7 @@ app.use(function (req, resp, next) {
     next();
 });
 app.set("port", (process.env.PORT || config.port));
-app.get("/js/artyom.window.js", function (req, resp) {
+app.get("/js/artyom.window.min.js", function (req, resp) {
     resp.sendFile(path.join(__dirname + "/../node_modules/artyom.js/build/artyom.window.min.js"));
 });
 app.put("/api/urban-dictionary", function (req, resp) {

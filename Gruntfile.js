@@ -26,9 +26,25 @@ module.exports = function (grunt) {
                     ext: '.min.css'
                 }]
             }
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist/client/',
+                    src: '**/*.html',
+                    dest: 'dist/client/',
+                    ext: '.html'
+                }]
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['uglify', 'cssmin']);
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.registerTask('default', ['uglify', 'cssmin', 'htmlmin']);
 };

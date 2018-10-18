@@ -1,5 +1,5 @@
 {
-  "name": "home-assistant",
+  "name": "travis",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RasmusBuchholdt/home-assistant.git"
+    "url": "git+https://github.com/RasmusBuchholdt/travis.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RasmusBuchholdt/home-assistant/issues"
+    "url": "https://github.com/RasmusBuchholdt/travis/issues"
   },
-  "homepage": "https://github.com/RasmusBuchholdt/home-assistant#readme",
+  "homepage": "https://github.com/RasmusBuchholdt/travis#readme",
   "dependencies": {
     "artyom.js": "^1.0.6",
     "bluebird": "^3.5.2",

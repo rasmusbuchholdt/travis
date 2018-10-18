@@ -30,7 +30,7 @@ function getDefinition(term: string) {
         headers: {          
             Accept: "application/json"
         }, 
-        success: function(result: any) {
+        success: (result: any) => {
             travis.say(result);
         }
     }); 

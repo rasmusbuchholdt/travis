@@ -75,7 +75,7 @@ app.put("/api/plex/auth", (req: any, resp: any) => {
 });
 
 app.get("/auth/pushbullet", (req: any, resp: any) => {
-    resp.redirect(Pushbullet.authentication());
+    resp.redirect(Pushbullet.authUrl());
 });
 
 app.get("/auth/pushbullet/callback", (req: any, resp: any) => {

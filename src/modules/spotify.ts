@@ -281,7 +281,7 @@ export class Spotify {
     static authStrategy() {
         return new spotifyStrategy(
             {
-                clientID: process.env.spotityClientID || config.spotityClientID,
+                clientID: process.env.spotifyClientID || config.spotifyClientID,
                 clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
                 callbackURL: process.env.spotifyCallbackURL || config.spotifyCallbackURL,
             },

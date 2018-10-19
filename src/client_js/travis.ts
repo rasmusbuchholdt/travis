@@ -90,6 +90,13 @@ travis.addCommands([
         }
     },
     {
+        indexes: ["Push *"],
+        smart: true,
+        action: (index: number, wildcard: string) => {
+            controlPushbullet(wildcard);
+        }
+    },
+    {
         indexes: ["Repeat after me *"],
         smart: true,
         action: (index: number, wildcard: string) => {

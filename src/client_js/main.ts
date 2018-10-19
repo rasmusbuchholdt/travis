@@ -51,6 +51,17 @@ function controlSpotify(action: string) {
     });
 }
 
+function controlPushbullet(action: string) {
+    $.ajax({
+        type: "PUT",
+        url: "/api/pushbullet/control",
+        data: {
+            accessToken: $.cookie("pushbullet_accessToken"),
+            action
+        }
+    });
+}
+
 function validateSpotifyToken() {
     $.ajax({
         type: "PUT",

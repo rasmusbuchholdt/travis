@@ -62,6 +62,11 @@ app.put("/api/pushbullet/validate", (req: any, resp: any) => {
     })
 });
 
+app.put("/api/pushbullet/control", (req: any, resp: any) => {
+    new Pushbullet(req.body.accessToken).handleAction(req.body.action);
+    return resp.status(HTTP.OK).send();
+});
+
 app.get("/api/plex/auth", (req: any, resp: any) => {
     Plex.getPin().then(result => {
         return resp.status(HTTP.OK).json(result);

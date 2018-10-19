@@ -1,6 +1,7 @@
 import { Passport } from "./modules/passport";
 import { Spotify } from "./modules/spotify";
 import { Plex } from "./modules/plex";
+import { Pushbullet } from "./modules/pushbullet";
 
 let express = require("express");
 let path = require("path");
@@ -55,6 +56,12 @@ app.put("/api/plex/validate", (req: any, resp: any) => {
     })
 });
 
+app.put("/api/pushbullet/validate", (req: any, resp: any) => {
+    new Pushbullet(req.body.accessToken).validateToken().then(result => {
+        return resp.status(HTTP.OK).json(result);
+    })
+});
+
 app.get("/api/plex/auth", (req: any, resp: any) => {
     Plex.getPin().then(result => {
         return resp.status(HTTP.OK).json(result);
@@ -65,6 +72,17 @@ app.put("/api/plex/auth", (req: any, resp: any) => {
     Plex.checkPin(req.body.requestId).then(result => {
         return resp.status(HTTP.OK).json(result);
     })
+});
+
+app.get("/auth/pushbullet", (req: any, resp: any) => {
+    resp.redirect(Pushbullet.authentication());
+});
+
+app.get("/auth/pushbullet/callback", (req: any, resp: any) => {
+    Pushbullet.getToken(req.query.code).then(result => {
+        resp.cookie("pushbullet_accessToken", result, { expires: new Date(Date.now() + 90000000000) });
+        resp.redirect("/");
+    });
 });
 
 app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), (req: any, resp: any) => { });

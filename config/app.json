@@ -1,6 +1,9 @@
 {
     "port": 2000,
-    "spotifyClientSecret": "",
-    "spotifyCallbackURL": ""
     "spotifyClientID": "",
+    "spotifyClientSecret": "",
+    "spotifyCallbackURL": "",
+    "pushbulletClientID": "",
+    "pushbulletClientSecret": "",
+    "pushbulletCallbackURL": ""
 }

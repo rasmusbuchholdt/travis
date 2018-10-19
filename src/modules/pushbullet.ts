@@ -1,4 +1,5 @@
 import { Promise } from "bluebird";
+import { arrayContains } from "./utils";
 
 let request = require('request-promise');
 
@@ -31,6 +32,31 @@ export class Pushbullet {
                     resolve(false);
                 });
         });
+    }
+
+    handleAction(action: string) {
+        let words: string[] = [];
+        words = action.toLowerCase().split(" ");
+        if (arrayContains(words, ["note", "message"])) {
+            this.pushNote(action);
+        };
+    }
+
+    private pushNote(note: string) {
+        note = note.replace("Note", "");
+        let options: {} = {
+            method: "POST",
+            uri: `https://api.pushbullet.com/v2/pushes`,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Token": this.accessToken
+            },
+            body: JSON.stringify({
+                type: "note",
+                body: note
+            })
+        };
+        request(options)
     }
 
     static authUrl() {

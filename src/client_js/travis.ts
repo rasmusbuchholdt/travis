@@ -76,10 +76,17 @@ travis.addCommands([
         }
     },
     {
-        indexes: ["* spotify", "spotify *", "* song", "song *", "* music", "music *", "* volume", "volume *", "* playback", "playback *", "* play", "play *"],
+        indexes: ["* spotify", "spotify *", "* song", "song *", "* music", "music *", "* volume", "volume *"],
         smart: true,
         action: (index: number, wildcard: string) => {
             controlSpotify(wildcard);
+        }
+    },
+    {
+        indexes: ["play *"],
+        smart: true,
+        action: (index: number, wildcard: string) => {
+            controlSpotify(`play ${wildcard}`);
         }
     },
     {

@@ -1,5 +1,5 @@
 import { Promise } from "bluebird";
-import { arrayContains } from "./utils";
+import { arrayContains, handleNote } from "./utils";
 
 let request = require('request-promise');
 
@@ -43,7 +43,7 @@ export class Pushbullet {
     }
 
     private pushNote(note: string) {
-        note = note.replace("Note", "");
+        note = handleNote(note);
         let options: {} = {
             method: "POST",
             uri: `https://api.pushbullet.com/v2/pushes`,

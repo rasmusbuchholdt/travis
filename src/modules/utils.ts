@@ -27,3 +27,17 @@ export function determineDeviceType(words: string[]) {
         return null;
     }
 }
+
+export function handleNote(string: string) {
+    let words: string[] = string.split(" ");
+    let counter: number = 0;
+    let finalString: string = "";
+    words.forEach(word => {
+        if (counter == 1 ) 
+            finalString += word[0].toUpperCase() + word.substr(1);
+        else if (counter != 0)
+            finalString += ` ${word}`;
+        counter++;
+    });
+    return finalString;
+}

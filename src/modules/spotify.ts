@@ -27,9 +27,11 @@ export class Spotify {
         return new Promise((resolve: any, reject: any) => {
             request(options)
                 .then(result => {
+                    console.log("validate result " + result);
                     resolve(true);
                 })
                 .catch(error => {
+                    console.log("validate error " + error);
                     resolve(false);
                 });
         });

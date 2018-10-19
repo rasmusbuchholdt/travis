@@ -70,7 +70,7 @@ app.put("/api/plex/auth", (req: any, resp: any) => {
 app.get("/auth/spotify", passport.authenticate("spotify", { scope: ["user-modify-playback-state", "user-read-playback-state"] }), (req: any, resp: any) => { });
 
 app.get("/auth/spotify/callback", passport.authenticate("spotify", { failureRedirect: "/auth/spotify" }), (req: any, resp: any) => {
-    resp.cookie("spotify_accessToken", req.user.accessToken, { expires: new Date(Date.now() + 90000000000), httpOnly: true });
+    resp.cookie("spotify_accessToken", req.user.accessToken, { expires: new Date(Date.now() + 90000000000) });
     resp.redirect("/");
 });
 

@@ -2,6 +2,7 @@ import { Promise } from "bluebird";
 import { arrayContains, handleNote } from "./utils";
 
 let request = require('request-promise');
+let querystring = require('querystring');
 
 let config = require("../../config/app.json");
 
@@ -59,8 +60,13 @@ export class Pushbullet {
         request(options)
     }
 
-    static authUrl() {
-        return `https://www.pushbullet.com/authorize?client_id=${config.pushbulletClientID || process.env.pushbulletClientID}&redirect_uri=${encodeURIComponent(config.pushbulletCallbackURL || process.env.pushbulletCallbackURL)}&response_type=code`;
+    static getAuthURL() {
+        return "https://www.pushbullet.com/authorize?" +
+            querystring.stringify({
+                client_id: config.pushbulletClientID || process.env.puFhbulletClientID,
+                redirect_uri: config.pushbulletCallbackURL || process.env.pushbulletCallbackURL,
+                response_type: "code"
+            });
     }
 
     static getToken(code: string) {

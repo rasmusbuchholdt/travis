@@ -80,7 +80,7 @@ app.put("/api/plex/auth", (req: any, resp: any) => {
 });
 
 app.get("/auth/pushbullet", (req: any, resp: any) => {
-    resp.redirect(Pushbullet.authUrl());
+    resp.redirect(Pushbullet.getAuthURL());
 });
 
 app.get("/auth/pushbullet/callback", (req: any, resp: any) => {

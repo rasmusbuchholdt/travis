@@ -39,9 +39,9 @@ export class Spotify {
     handleAction(action: string) {
         let words: string[] = [];
         words = action.toLowerCase().split(" ");
-        if (arrayContains(words, ["play", "start"])) {
+        if (arrayContains(words, ["play"])) {
             this.playTrack(action);
-        } else if (arrayContains(words, ["resume"])) {
+        } else if (arrayContains(words, ["resume", "start"])) {
             this.resume();
         } else if (arrayContains(words, ["stop", "pause"])) {
             this.pause();

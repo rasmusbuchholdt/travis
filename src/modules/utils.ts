@@ -33,11 +33,19 @@ export function handleNote(string: string) {
     let counter: number = 0;
     let finalString: string = "";
     words.forEach(word => {
-        if (counter == 1 ) 
+        if (counter == 1)
             finalString += word[0].toUpperCase() + word.substr(1);
         else if (counter != 0)
             finalString += ` ${word}`;
         counter++;
     });
     return finalString;
+}
+
+export function randomString(length: number) {
+    let result: string = "";
+    let possible: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let i = 0; i < length; i++)
+        result += possible.charAt(Math.floor(Math.random() * possible.length));
+    return result;
 }

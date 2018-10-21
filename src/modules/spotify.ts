@@ -1,8 +1,9 @@
 import { Promise } from "bluebird";
 import { arrayContains, getStringNumber, determineDeviceType } from "./utils";
+import { Buffer } from "buffer";
 
-let spotifyStrategy = require("passport-spotify").Strategy;
 let request = require('request-promise');
+let querystring = require('querystring');
 
 let config = require("../../config/app.json");
 
@@ -172,10 +173,10 @@ export class Spotify {
 
     private transferPlayback(words: string[]) {
         let deviceTypeChoice: string = determineDeviceType(words);
-        if (!deviceTypeChoice) return;     
+        if (!deviceTypeChoice) return;
         this.getDevices().then(result => {
             let deviceChoice: string;
-            result.forEach(device => { 
+            result.forEach(device => {
                 if (device.type.toLowerCase() == deviceTypeChoice && device.is_active == false)
                     deviceChoice = device.id;
             });
@@ -201,9 +202,9 @@ export class Spotify {
             let maxPopularity: number = 0;
             let trackChoice: string;
             result.forEach(track => {
-                if(track.popularity > maxPopularity) {
+                if (track.popularity > maxPopularity) {
                     maxPopularity = track.popularity;
-                    trackChoice = track.uri;     
+                    trackChoice = track.uri;
                 }
             });
             if (!trackChoice) return;
@@ -251,7 +252,7 @@ export class Spotify {
 
         return new Promise((resolve: any, reject: any) => {
             request(options)
-                .then(result => {    
+                .then(result => {
                     resolve(result.devices);
                 });
         });
@@ -276,18 +277,37 @@ export class Spotify {
         });
     }
 
-    static authStrategy() {
-        return new spotifyStrategy(
-            {
-                clientID: process.env.spotifyClientID || config.spotifyClientID,
-                clientSecret: process.env.spotifyClientSecret || config.spotifyClientSecret,
-                callbackURL: process.env.spotifyCallbackURL || config.spotifyCallbackURL,
+    static getAuthURL(stateSecret: string) {
+        return "https://accounts.spotify.com/authorize?" +
+            querystring.stringify({
+                response_type: "code",
+                client_id: process.env.spotifyClientID || config.spotifyClientID,
+                scope: "user-modify-playback-state user-read-playback-state",
+                redirect_uri: process.env.spotifyCallbackURL || config.spotifyCallbackURL,
+                state: stateSecret
+            });
+    }
+
+    static getToken(code: string) {
+        let buffer: string = new Buffer(`${process.env.spotifyClientID || config.spotifyClientID}:${process.env.spotifyClientSecret || config.spotifyClientSecret}`).toString("base64");        
+        let options = {
+            method: "POST",
+            url: "https://accounts.spotify.com/api/token",
+            form: {
+                code: code,
+                redirect_uri: process.env.spotifyCallbackURL || config.spotifyCallbackURL,
+                grant_type: "authorization_code"
             },
-            (accessToken, refreshToken, expires_in, profile, done) => {
-                process.nextTick(() => {
-                    return done(null, { accessToken, refreshToken, expires_in, profile });
+            headers: {
+                "Authorization": `Basic ${buffer}`
+            },
+            json: true
+        };
+        return new Promise((resolve: any, reject: any) => {
+            request(options)
+                .then(result => {
+                    resolve(result);
                 });
-            }
-        )
+        });
     }
 }

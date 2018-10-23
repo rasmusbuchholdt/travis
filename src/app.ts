@@ -10,11 +10,13 @@ let bodyparser = require("body-parser");
 let compression = require("compression")
 let HTTP = require("http-status-codes");
 let config = require("../config/app.json");
+let redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
 
 let app = express();
 app.use(compression());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
+app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 app.use(express.static(__dirname + "/client"));
 
 app.use((req: any, resp: any, next: any) => {

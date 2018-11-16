@@ -145,7 +145,7 @@ export class Spotify {
         request(options);
     }
 
-    private volumeUp(amount: number) {
+    private volumeUp(amount: number = null) {
         this.getPlayback().then(result => {
             let options: {} = {
                 method: "PUT",

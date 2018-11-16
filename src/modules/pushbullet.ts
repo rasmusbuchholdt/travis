@@ -1,5 +1,6 @@
-import { Promise } from "bluebird";
-import { arrayContains, handleNote } from "./utils";
+import { Promise } from 'bluebird';
+
+import { arrayContains, handleNote } from './utils';
 
 let request = require('request-promise');
 let querystring = require('querystring');

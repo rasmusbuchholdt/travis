@@ -1,7 +1,7 @@
-import { Spotify } from "./modules/spotify";
-import { Plex } from "./modules/plex";
-import { Pushbullet } from "./modules/pushbullet";
-import { randomString } from "./modules/utils";
+import { Plex } from './modules/plex';
+import { Pushbullet } from './modules/pushbullet';
+import { Spotify } from './modules/spotify';
+import { randomString } from './modules/utils';
 
 let express = require("express");
 let path = require("path");

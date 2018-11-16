@@ -1,6 +1,7 @@
-import { Promise } from "bluebird";
-import { arrayContains, getStringNumber, determineDeviceType } from "./utils";
-import { Buffer } from "buffer";
+import { Promise } from 'bluebird';
+import { Buffer } from 'buffer';
+
+import { arrayContains, determineDeviceType, getStringNumber } from './utils';
 
 let request = require('request-promise');
 let querystring = require('querystring');

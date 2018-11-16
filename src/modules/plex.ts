@@ -1,4 +1,4 @@
-import { Promise } from "bluebird";
+import { Promise } from 'bluebird';
 
 let plexApi = require("plex-api");
 let PlexPin = require("plex-pin");
